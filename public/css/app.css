@@ -1,0 +1,47 @@
+/* =========================================================
+   Ain Sheba — Custom Stylesheet
+   All custom classes use the `ain-` prefix to avoid
+   collisions with Bootstrap utility classes.
+   ========================================================= */
+
+:root {
+    --ain-primary: #1a3c5e;
+    --ain-accent:  #c9a84c;
+    --ain-dark:    #0f1f2e;
+    --ain-light:   #f5f7fa;
+    --ain-success: #2e7d32;
+    --ain-danger:  #c62828;
+}
+
+/* Base overrides */
+body {
+    background-color: var(--ain-light);
+    color: var(--ain-dark);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+/* Navbar */
+.ain-navbar {
+    background-color: var(--ain-primary);
+}
+
+.ain-navbar .navbar-brand,
+.ain-navbar .nav-link {
+    color: #fff;
+}
+
+.ain-navbar .nav-link:hover {
+    color: var(--ain-accent);
+}
+
+/* Footer */
+.ain-footer {
+    background-color: var(--ain-dark);
+    color: #adb5bd;
+}
