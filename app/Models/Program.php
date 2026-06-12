@@ -13,18 +13,10 @@ class Program extends Model
         'slug',
         'description',
         'thumbnail',
-        'price',
         'level',
         'language',
         'status',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'price' => 'decimal:2',
-        ];
-    }
 
     public function lawyer()
     {

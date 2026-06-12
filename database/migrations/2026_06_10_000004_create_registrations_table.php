@@ -14,7 +14,6 @@ return new class extends Migration
             $table->unsignedBigInteger('program_id');
             $table->timestamp('registered_at');
             $table->timestamp('completed_at')->nullable();
-            $table->integer('progress_percent')->default(0);
 
             $table->foreign('citizen_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('program_id')->references('id')->on('programs')->onDelete('cascade');

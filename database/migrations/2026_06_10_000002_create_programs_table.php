@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->longText('description');
             $table->string('thumbnail')->nullable();
-            $table->decimal('price', 8, 2)->default(0);
             $table->enum('level', ['basic', 'intermediate', 'advanced'])->default('basic');
             $table->string('language')->default('Bengali');
             $table->enum('status', ['draft', 'published', 'archived'])->default('draft');

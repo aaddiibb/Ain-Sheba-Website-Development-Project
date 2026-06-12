@@ -21,6 +21,7 @@ class User extends Authenticatable
         'profile_picture',
         'bio',
         'is_active',
+        'consultation_fee',
     ];
 
     protected $hidden = [
@@ -33,7 +34,8 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'is_active' => 'boolean',
+            'is_active'        => 'boolean',
+            'consultation_fee' => 'decimal:2',
         ];
     }
 
@@ -81,5 +83,23 @@ class User extends Authenticatable
     public function feedback()
     {
         return $this->hasMany(Feedback::class, 'citizen_id');
+    }
+
+    // As lawyer: availability slots
+    public function availability()
+    {
+        return $this->hasMany(LawyerAvailability::class, 'lawyer_id');
+    }
+
+    // As lawyer: consultation bookings
+    public function consultationsAsLawyer()
+    {
+        return $this->hasMany(Consultation::class, 'lawyer_id');
+    }
+
+    // As citizen: consultation bookings
+    public function consultationsAsCitizen()
+    {
+        return $this->hasMany(Consultation::class, 'citizen_id');
     }
 }

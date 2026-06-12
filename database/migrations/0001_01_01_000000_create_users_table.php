@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('profile_picture')->nullable();
             $table->text('bio')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->decimal('consultation_fee', 8, 2)->nullable();
             $table->timestamps();
         });
 
