@@ -22,6 +22,11 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 //--- Citizen Routes ---//
 Route::middleware(['auth', 'role:citizen'])->prefix('citizen')->name('citizen.')->group(function () {
     Route::get('/dashboard', [Citizen\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/my-programs', [Citizen\DashboardController::class, 'myPrograms'])->name('programs');
+    Route::get('/profile', [Citizen\DashboardController::class, 'profile'])->name('profile');
+    Route::patch('/profile', [Citizen\DashboardController::class, 'updateProfile'])->name('profile.update');
+    Route::get('/password', [Citizen\DashboardController::class, 'showChangePassword'])->name('password');
+    Route::patch('/password', [Citizen\DashboardController::class, 'updatePassword'])->name('password.update');
 });
 
 //--- Lawyer Routes ---//

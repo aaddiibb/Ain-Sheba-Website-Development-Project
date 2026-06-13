@@ -199,3 +199,128 @@ main {
 .ain-footer-divider {
     border-color: rgba(255, 255, 255, 0.1);
 }
+
+/* === Citizen Dashboard === */
+.ain-citizen-sidebar {
+    background: var(--ain-light);
+    min-height: 100vh;
+    border-right: 1px solid #dee2e6;
+    padding: 1.5rem;
+}
+
+.ain-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--ain-accent);
+}
+
+.ain-avatar-placeholder {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--ain-primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.25rem;
+    border: 2px solid var(--ain-accent);
+}
+
+.ain-sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.ain-sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.75rem;
+    border-radius: 6px;
+    color: var(--ain-dark);
+    text-decoration: none;
+    font-size: 0.92rem;
+    transition: background 0.15s, color 0.15s;
+    cursor: pointer;
+}
+
+.ain-sidebar-link:hover {
+    background: rgba(26, 60, 94, 0.08);
+    color: var(--ain-primary);
+}
+
+.ain-sidebar-link.active {
+    background: var(--ain-primary);
+    color: #fff;
+}
+
+.ain-sidebar-logout {
+    color: var(--ain-danger);
+}
+
+.ain-sidebar-logout:hover {
+    background: rgba(198, 40, 40, 0.08);
+    color: var(--ain-danger);
+}
+
+/* Stat cards (dashboard) */
+.ain-stat-dash {
+    position: relative;
+    background: #fff;
+    padding: 1.25rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border-left: 4px solid transparent;
+    overflow: hidden;
+}
+
+.ain-stat-primary  { border-left-color: var(--ain-primary); }
+.ain-stat-accent   { border-left-color: var(--ain-accent); }
+.ain-stat-success  { border-left-color: var(--ain-success); }
+.ain-stat-purple   { border-left-color: #6f42c1; }
+
+.ain-stat-dash-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: #6c757d;
+}
+
+.ain-stat-dash-value {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--ain-dark);
+}
+
+.ain-stat-dash-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2.5rem;
+    opacity: 0.08;
+    color: var(--ain-dark);
+}
+
+/* Welcome banner */
+.ain-welcome-banner {
+    background: linear-gradient(135deg, var(--ain-primary), #2a5a8e);
+    color: #fff;
+}
+
+.ain-welcome-banner h4,
+.ain-welcome-banner p {
+    color: #fff;
+}
+
+/* Progress track placeholder (Day 9+) */
+.ain-progress-track {
+    height: 6px;
+    background: #dee2e6;
+    border-radius: 3px;
+}
