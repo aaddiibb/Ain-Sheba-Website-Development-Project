@@ -1,0 +1,25 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Scales of justice">
+  <!-- Balance beam -->
+  <line x1="200" y1="60" x2="200" y2="240" stroke="#c9a84c" stroke-width="4" stroke-linecap="round"/>
+  <!-- Horizontal beam -->
+  <line x1="80" y1="100" x2="320" y2="100" stroke="#c9a84c" stroke-width="4" stroke-linecap="round"/>
+  <!-- Top pivot circle -->
+  <circle cx="200" cy="58" r="10" fill="#c9a84c"/>
+  <!-- Left pan string -->
+  <line x1="80" y1="100" x2="80" y2="155" stroke="#c9a84c" stroke-width="2.5"/>
+  <!-- Right pan string -->
+  <line x1="320" y1="100" x2="320" y2="155" stroke="#c9a84c" stroke-width="2.5"/>
+  <!-- Left pan (circle) -->
+  <circle cx="80" cy="175" r="28" fill="none" stroke="#1a3c5e" stroke-width="3.5"/>
+  <circle cx="80" cy="175" r="22" fill="#1a3c5e" fill-opacity="0.18"/>
+  <!-- Right pan (circle) -->
+  <circle cx="320" cy="175" r="28" fill="none" stroke="#1a3c5e" stroke-width="3.5"/>
+  <circle cx="320" cy="175" r="22" fill="#1a3c5e" fill-opacity="0.18"/>
+  <!-- Base triangle -->
+  <polygon points="200,240 160,280 240,280" fill="#1a3c5e"/>
+  <!-- Base bar -->
+  <rect x="140" y="278" width="120" height="8" rx="4" fill="#c9a84c"/>
+  <!-- Decorative stars on pans -->
+  <text x="80" y="181" text-anchor="middle" font-size="18" fill="#c9a84c">⚖</text>
+  <text x="320" y="181" text-anchor="middle" font-size="18" fill="#c9a84c">⚖</text>
+</svg>

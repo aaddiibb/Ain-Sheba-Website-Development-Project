@@ -4,11 +4,13 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Citizen;
 use App\Http\Controllers\Lawyer;
 use App\Http\Controllers\Admin;
+use App\Http\Controllers\Public\PublicController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('public.home_placeholder');
-})->name('home');
+//--- Public Routes ---//
+Route::get('/', [PublicController::class, 'home'])->name('home');
+Route::get('/about', [PublicController::class, 'about'])->name('about');
+Route::get('/contact', [PublicController::class, 'contact'])->name('contact');
 
 //--- Auth Routes ---//
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');

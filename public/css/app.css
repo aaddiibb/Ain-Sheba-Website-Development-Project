@@ -4,6 +4,7 @@
    collisions with Bootstrap utility classes.
    ========================================================= */
 
+/* === Reset & Variables === */
 :root {
     --ain-primary: #1a3c5e;
     --ain-accent:  #c9a84c;
@@ -13,7 +14,7 @@
     --ain-danger:  #c62828;
 }
 
-/* Base overrides */
+/* === Global === */
 body {
     background-color: var(--ain-light);
     color: var(--ain-dark);
@@ -26,22 +27,175 @@ main {
     flex: 1;
 }
 
-/* Navbar */
+.ain-section {
+    padding: 5rem 0;
+}
+
+.ain-btn-accent {
+    background: var(--ain-accent);
+    border: none;
+    color: #fff;
+}
+
+.ain-btn-accent:hover,
+.ain-btn-accent:focus {
+    background: #b8942e;
+    color: #fff;
+}
+
+/* === Navbar === */
 .ain-navbar {
-    background-color: var(--ain-primary);
+    background-color: var(--ain-dark);
 }
 
 .ain-navbar .navbar-brand,
 .ain-navbar .nav-link {
-    color: #fff;
+    color: rgba(255, 255, 255, 0.9);
 }
 
-.ain-navbar .nav-link:hover {
+.ain-navbar .nav-link:hover,
+.ain-navbar .nav-link:focus {
     color: var(--ain-accent);
 }
 
-/* Footer */
+.ain-navbar .navbar-brand:hover {
+    color: var(--ain-accent);
+}
+
+/* === Hero === */
+.ain-hero {
+    background: linear-gradient(135deg, var(--ain-dark), var(--ain-primary));
+    color: white;
+}
+
+.ain-hero h1,
+.ain-hero p {
+    color: white;
+}
+
+/* === Stats Strip === */
+.ain-stats-strip {
+    background-color: #fff;
+}
+
+.ain-stat-card {
+    border-radius: 0.5rem;
+}
+
+.ain-stat-card .ain-counter {
+    color: var(--ain-primary);
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* === Area Cards === */
+.ain-area-card {
+    border-top: 3px solid var(--ain-accent) !important;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    cursor: pointer;
+}
+
+.ain-area-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
+}
+
+.ain-area-icon {
+    font-size: 2rem;
+    color: var(--ain-accent);
+}
+
+/* === Program Cards === */
+.ain-program-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.ain-program-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
+}
+
+.ain-program-thumb {
+    height: 180px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.ain-program-thumb-placeholder {
+    background-color: var(--ain-primary);
+    height: 180px;
+    width: 100%;
+}
+
+.ain-badge-level {
+    background-color: var(--ain-primary);
+    color: #fff;
+}
+
+.ain-badge-area {
+    background-color: var(--ain-accent);
+    color: #fff;
+}
+
+/* === Feature Cards === */
+.ain-feature-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.ain-feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
+}
+
+.ain-feature-icon {
+    font-size: 3rem;
+    color: var(--ain-accent);
+    display: block;
+}
+
+/* === CTA Banner === */
+.ain-cta-banner {
+    background: var(--ain-primary);
+    color: white;
+    padding: 4rem 1rem;
+}
+
+.ain-cta-banner h2,
+.ain-cta-banner p {
+    color: white;
+}
+
+/* === Footer === */
 .ain-footer {
     background-color: var(--ain-dark);
-    color: #adb5bd;
+}
+
+.ain-footer-text {
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.ain-footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ain-footer-links li {
+    margin-bottom: 0.4rem;
+}
+
+.ain-footer-links a {
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.ain-footer-links a:hover {
+    color: #fff;
+}
+
+.ain-footer-divider {
+    border-color: rgba(255, 255, 255, 0.1);
 }
