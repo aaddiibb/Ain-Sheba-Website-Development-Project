@@ -67,3 +67,59 @@ function initImagePreview(inputId, previewId) {
         reader.readAsDataURL(this.files[0]);
     });
 }
+
+// ── Module Drag-to-Reorder ─────────────────────────────────────────
+// Usage: initModuleSorting(programId, csrfToken)
+// Requires SortableJS (loaded via CDN in layouts/app.blade.php)
+function initModuleSorting(programId, csrfToken) {
+    const list = document.getElementById('modules-sortable');
+    if (!list || typeof Sortable === 'undefined') return;
+
+    Sortable.create(list, {
+        handle: '.ain-drag-handle',
+        animation: 150,
+        ghostClass: 'ain-drag-ghost',
+        onEnd: function () {
+            const ids = Array.from(list.children).map(function (el) {
+                return parseInt(el.dataset.id, 10);
+            });
+
+            fetch('/lawyer/programs/' + programId + '/modules/reorder', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+                body: JSON.stringify({ ids: ids }),
+            })
+            .then(function (res) {
+                if (res.ok) {
+                    initSimpleToast('Module order saved', 'success');
+                }
+            });
+        },
+    });
+}
+
+// ── Simple Toast ───────────────────────────────────────────────────
+// Creates a fixed dismissible Bootstrap alert and auto-removes after 3s.
+function initSimpleToast(message, type) {
+    type = type || 'success';
+
+    var wrapper = document.createElement('div');
+    wrapper.style.cssText = 'position:fixed;top:1rem;right:1rem;z-index:9999;min-width:260px';
+
+    var alert = document.createElement('div');
+    alert.className = 'alert alert-' + type + ' alert-dismissible fade show shadow';
+    alert.setAttribute('role', 'alert');
+    alert.innerHTML =
+        message +
+        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+
+    wrapper.appendChild(alert);
+    document.body.appendChild(wrapper);
+
+    setTimeout(function () {
+        wrapper.remove();
+    }, 3000);
+}

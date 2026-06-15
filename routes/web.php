@@ -32,6 +32,16 @@ Route::middleware(['auth', 'role:citizen'])->prefix('citizen')->name('citizen.')
 //--- Lawyer Routes ---//
 Route::middleware(['auth', 'role:lawyer'])->prefix('lawyer')->name('lawyer.')->group(function () {
     Route::get('/dashboard', [Lawyer\DashboardController::class, 'index'])->name('dashboard');
+
+    // Module routes — MUST be before Route::resource('programs') to prevent
+    // 'reorder' and 'create' being matched as program ID parameters.
+    Route::get('/programs/{program}/modules/create', [Lawyer\ModuleController::class, 'create'])->name('modules.create');
+    Route::post('/programs/{program}/modules', [Lawyer\ModuleController::class, 'store'])->name('modules.store');
+    Route::post('/programs/{program}/modules/reorder', [Lawyer\ModuleController::class, 'reorder'])->name('modules.reorder');
+    Route::get('/programs/{program}/modules/{module}/edit', [Lawyer\ModuleController::class, 'edit'])->name('modules.edit');
+    Route::patch('/programs/{program}/modules/{module}', [Lawyer\ModuleController::class, 'update'])->name('modules.update');
+    Route::delete('/programs/{program}/modules/{module}', [Lawyer\ModuleController::class, 'destroy'])->name('modules.destroy');
+
     Route::resource('programs', Lawyer\ProgramController::class);
     Route::get('/profile', [Lawyer\ProfileController::class, 'show'])->name('profile');
     Route::patch('/profile', [Lawyer\ProfileController::class, 'update'])->name('profile.update');
