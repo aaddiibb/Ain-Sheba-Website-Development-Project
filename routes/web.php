@@ -32,6 +32,11 @@ Route::middleware(['auth', 'role:citizen'])->prefix('citizen')->name('citizen.')
 //--- Lawyer Routes ---//
 Route::middleware(['auth', 'role:lawyer'])->prefix('lawyer')->name('lawyer.')->group(function () {
     Route::get('/dashboard', [Lawyer\DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('programs', Lawyer\ProgramController::class);
+    Route::get('/profile', [Lawyer\ProfileController::class, 'show'])->name('profile');
+    Route::patch('/profile', [Lawyer\ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/password', [Lawyer\ProfileController::class, 'showChangePassword'])->name('password');
+    Route::patch('/password', [Lawyer\ProfileController::class, 'updatePassword'])->name('password.update');
 });
 
 //--- Admin Routes ---//

@@ -324,3 +324,73 @@ main {
     background: #dee2e6;
     border-radius: 3px;
 }
+
+/* === Lawyer Dashboard === */
+.ain-table-wrap {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.ain-table {
+    margin-bottom: 0;
+}
+
+.ain-table thead {
+    background: var(--ain-primary);
+    color: #fff;
+}
+
+.ain-table thead th {
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: .03em;
+    border: none;
+    padding: 0.85rem 1rem;
+}
+
+.ain-table tbody td {
+    padding: 0.75rem 1rem;
+    vertical-align: middle;
+    border-color: #f0f0f0;
+}
+
+.ain-table tbody tr:hover {
+    background: rgba(26, 60, 94, 0.04);
+}
+
+/* Status badge classes */
+.ain-badge-published {
+    display: inline-block;
+    padding: 0.25em 0.65em;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border-radius: 4px;
+    background: #d4edda;
+    color: var(--ain-success);
+}
+
+.ain-badge-draft {
+    display: inline-block;
+    padding: 0.25em 0.65em;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border-radius: 4px;
+    background: #e9ecef;
+    color: #495057;
+}
+
+.ain-badge-archived {
+    display: inline-block;
+    padding: 0.25em 0.65em;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border-radius: 4px;
+    background: #f8d7da;
+    color: var(--ain-danger);
+}
+
+/* Stat card variant for draft/neutral */
+.ain-stat-draft {
+    border-left-color: #6c757d;
+}
