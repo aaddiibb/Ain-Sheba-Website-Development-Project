@@ -12,8 +12,8 @@
                 <h1 class="display-5 fw-bold mb-3">Know Your Rights.<br>Empower Yourself.</h1>
                 <p class="lead mb-4">Ain Sheba connects citizens with certified legal experts for accessible, structured legal literacy training.</p>
                 <div class="d-flex flex-wrap gap-3">
-                    <a href="{{ url('/programs') }}" class="btn ain-btn-accent btn-lg px-4">Browse Programs</a>
-                    <a href="{{ url('/lawyers') }}" class="btn btn-outline-light btn-lg px-4">Find a Lawyer</a>
+                    <a href="{{ route('programs.index') }}" class="btn ain-btn-accent btn-lg px-4">Browse Programs</a>
+                    <a href="{{ route('lawyers.index') }}" class="btn btn-outline-light btn-lg px-4">Find a Lawyer</a>
                 </div>
             </div>
             <div class="col-md-6 text-center">
@@ -65,7 +65,7 @@
         <div class="row g-4">
             @foreach ($legalAreas as $area)
             <div class="col-sm-6 col-md-4 col-lg-3">
-                <a href="{{ url('/programs?category=' . $area->slug) }}" class="text-decoration-none">
+                <a href="{{ route('programs.index', ['category' => $area->slug]) }}" class="text-decoration-none">
                     <div class="ain-area-card card h-100 border-0 shadow-sm p-3 text-center">
                         <i class="bi {{ $area->icon }} ain-area-icon mb-3"></i>
                         <h6 class="fw-semibold mb-1">{{ $area->name }}</h6>
@@ -108,7 +108,7 @@
                                 <span class="badge ain-badge-area">{{ $program->legalArea->name }}</span>
                             @endif
                         </div>
-                        <a href="{{ url('/programs/' . $program->slug) }}" class="btn ain-btn-accent btn-sm mt-auto">View Program</a>
+                        <a href="{{ route('programs.show', $program->slug) }}" class="btn ain-btn-accent btn-sm mt-auto">View Program</a>
                     </div>
                 </div>
             </div>

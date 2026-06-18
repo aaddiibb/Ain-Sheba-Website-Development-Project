@@ -24,7 +24,7 @@
             <i class="bi bi-journal-check"></i> My Programs
         </a>
 
-        <a href="#"
+        <a href="{{ route('citizen.consultations.index') }}"
            class="ain-sidebar-link {{ request()->routeIs('citizen.consultations.*') ? 'active' : '' }}">
             <i class="bi bi-calendar-check"></i> My Consultations
         </a>

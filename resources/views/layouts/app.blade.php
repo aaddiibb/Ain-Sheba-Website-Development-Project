@@ -33,10 +33,10 @@
                         <a class="nav-link" href="{{ route('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/programs') }}">Programs</a>
+                        <a class="nav-link" href="{{ route('programs.index') }}">Programs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/lawyers') }}">Lawyers</a>
+                        <a class="nav-link" href="{{ route('lawyers.index') }}">Lawyers</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('about') }}">About</a>
@@ -121,8 +121,8 @@
                     <h6 class="text-white fw-semibold mb-3 text-uppercase letter-spacing-1">Quick Links</h6>
                     <ul class="list-unstyled ain-footer-links">
                         <li><a href="{{ route('home') }}">Home</a></li>
-                        <li><a href="{{ url('/programs') }}">Programs</a></li>
-                        <li><a href="{{ url('/lawyers') }}">Lawyers</a></li>
+                        <li><a href="{{ route('programs.index') }}">Programs</a></li>
+                        <li><a href="{{ route('lawyers.index') }}">Lawyers</a></li>
                         <li><a href="{{ route('about') }}">About</a></li>
                         <li><a href="{{ route('contact') }}">Contact</a></li>
                         <li><a href="{{ route('login') }}">Login</a></li>

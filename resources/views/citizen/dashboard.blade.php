@@ -63,7 +63,12 @@
                     <p class="card-text small text-muted mb-3">
                         <i class="bi bi-person-badge me-1"></i>{{ $reg->program->lawyer->name ?? '—' }}
                     </p>
-                    <a href="#" class="btn btn-sm ain-btn-accent w-100">Continue</a>
+                    @php $nextModule = $reg->nextModule(); @endphp
+                    @if ($nextModule)
+                        <a href="{{ route('citizen.module.show', [$reg->program->slug, $nextModule->id]) }}" class="btn btn-sm ain-btn-accent w-100">Continue</a>
+                    @else
+                        <a href="#" class="btn btn-sm btn-outline-success w-100">View Certificate</a>
+                    @endif
                 </div>
             </div>
         </div>
@@ -125,7 +130,7 @@
                     <p class="card-text small text-muted mb-3">
                         <i class="bi bi-person-badge me-1"></i>{{ $program->lawyer->name ?? '—' }}
                     </p>
-                    <a href="#" class="btn btn-sm btn-outline-primary w-100">View Program</a>
+                    <a href="{{ route('programs.show', $program->slug) }}" class="btn btn-sm btn-outline-primary w-100">View Program</a>
                 </div>
             </div>
         </div>
@@ -137,7 +142,7 @@
 @if ($recommended->isEmpty() && $continuePrograms->isEmpty() && $upcomingConsultations->isEmpty())
 <div class="text-center py-5 text-muted">
     <i class="bi bi-journals" style="font-size:3rem"></i>
-    <p class="mt-3">Your dashboard is empty. <a href="#">Browse programs</a> to get started.</p>
+        <p class="mt-3">Your dashboard is empty. <a href="{{ route('programs.index') }}">Browse programs</a> to get started.</p>
 </div>
 @endif
 

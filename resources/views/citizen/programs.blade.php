@@ -57,7 +57,12 @@
                             <a href="#" class="btn btn-sm btn-outline-success">View Certificate</a>
                         </div>
                     @else
-                        <a href="#" class="btn btn-sm ain-btn-accent">Continue Learning</a>
+                        @php $nextModule = $reg->nextModule(); @endphp
+                        @if ($nextModule)
+                            <a href="{{ route('citizen.module.show', [$reg->program->slug, $nextModule->id]) }}" class="btn btn-sm ain-btn-accent">Continue Learning</a>
+                        @else
+                            <a href="#" class="btn btn-sm btn-outline-success">View Certificate</a>
+                        @endif
                     @endif
                 </div>
             </div>

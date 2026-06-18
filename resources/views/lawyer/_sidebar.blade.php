@@ -29,12 +29,12 @@
             <i class="bi bi-plus-circle"></i> Create Program
         </a>
 
-        <a href="#"
+        <a href="{{ route('lawyer.consultations.index') }}"
            class="ain-sidebar-link {{ request()->routeIs('lawyer.consultations.*') ? 'active' : '' }}">
             <i class="bi bi-calendar2-week"></i> Consultations
         </a>
 
-        <a href="#"
+        <a href="{{ route('lawyer.availability.index') }}"
            class="ain-sidebar-link {{ request()->routeIs('lawyer.availability.*') ? 'active' : '' }}">
             <i class="bi bi-clock"></i> My Availability
         </a>

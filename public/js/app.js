@@ -101,6 +101,47 @@ function initModuleSorting(programId, csrfToken) {
     });
 }
 
+// ── Booking Date → Time Slot Generator ────────────────────────────
+// Used on citizen/consultations/book.blade.php.
+// Expects window.lawyerAvailability (grouped by day_of_week) and
+// window.bookedSlots ([{booked_date, time_slot}]) to be set by the view.
+document.getElementById('booking-date')?.addEventListener('change', function () {
+    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    // Use UTC date parts to avoid timezone shift on date-only strings
+    var parts = this.value.split('-');
+    var d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+    var selectedDay = days[d.getDay()];
+    var slot = lawyerAvailability[selectedDay];
+    var timeSelect = document.getElementById('time-slot-select');
+
+    timeSelect.innerHTML = '<option value="">Select a time slot</option>';
+
+    if (!slot || slot.length === 0) {
+        timeSelect.innerHTML = '<option value="">No availability on this day</option>';
+        return;
+    }
+
+    var selectedDate = this.value;
+
+    slot.forEach(function (s) {
+        var startH = parseInt(s.start_time);
+        var endH   = parseInt(s.end_time);
+
+        for (var h = startH; h < endH; h++) {
+            var label = h + ':00 - ' + (h + 1) + ':00';
+            var taken = bookedSlots.some(function (b) {
+                return b.booked_date === selectedDate && b.time_slot === label;
+            });
+
+            var opt = document.createElement('option');
+            opt.value       = label;
+            opt.textContent = taken ? label + ' (Taken)' : label;
+            if (taken) { opt.disabled = true; }
+            timeSelect.appendChild(opt);
+        }
+    });
+});
+
 // ── Simple Toast ───────────────────────────────────────────────────
 // Creates a fixed dismissible Bootstrap alert and auto-removes after 3s.
 function initSimpleToast(message, type) {
@@ -122,4 +163,57 @@ function initSimpleToast(message, type) {
     setTimeout(function () {
         wrapper.remove();
     }, 3000);
+}
+
+// ── Module Completion ─────────────────────────────────────────────
+function markModuleComplete(moduleId, csrfToken) {
+    const btn = document.getElementById('btn-mark-complete');
+    if (!btn) return;
+
+    btn.addEventListener('click', function () {
+        btn.disabled = true;
+        btn.textContent = 'Marking...';
+
+        fetch('/citizen/modules/' + moduleId + '/complete', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken,
+            },
+        })
+        .then(function (r) {
+            return r.json();
+        })
+        .then(function (data) {
+            btn.style.display = 'none';
+
+            document.getElementById('completion-badge')?.style.setProperty('display', 'inline-flex');
+
+            const currentItem = document.querySelector('.ain-module-item.active .ain-module-icon');
+            if (currentItem) {
+                currentItem.className = 'bi bi-check-circle-fill text-success ain-module-icon';
+            }
+
+            const counter = document.getElementById('module-counter');
+            if (counter && data.completed_count !== undefined) {
+                counter.textContent = data.completed_count + ' of ' + data.total_count + ' completed';
+            }
+
+            if (data.program_completed) {
+                initSimpleToast('🎉 You completed this program! Your Legal Literacy Certificate has been issued.', 'success');
+            }
+        })
+        .catch(function () {
+            btn.disabled = false;
+            btn.textContent = 'Mark as Complete';
+        });
+    });
+}
+
+const moduleCompleteButton = document.getElementById('btn-mark-complete');
+if (moduleCompleteButton) {
+    markModuleComplete(
+        moduleCompleteButton.dataset.moduleId,
+        document.querySelector('meta[name="csrf-token"]')?.content || ''
+    );
 }
