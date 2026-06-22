@@ -210,6 +210,130 @@ function markModuleComplete(moduleId, csrfToken) {
     });
 }
 
+// ── Assessment Builder ─────────────────────────────────────────────
+// Used on lawyer/assessments/create and edit pages.
+// On edit, set `var existingAssessment = @json($assessment)` before calling.
+function initAssessmentBuilder() {
+    var questionsList  = document.getElementById('questions-list');
+    var addQuestionBtn = document.getElementById('add-question-btn');
+    var emptyHint      = document.getElementById('questions-empty-hint');
+    if (!questionsList || !addQuestionBtn) return;
+
+    var qCount = 0;
+
+    function esc(s) {
+        return String(s || '')
+            .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function addOption(block, optText, isCorrect) {
+        if (emptyHint) emptyHint.style.display = 'none';
+        var list = block.querySelector('.ain-options-list');
+        var qIdx = block.dataset.qIdx;
+        var oIdx = list.children.length;
+
+        var row = document.createElement('div');
+        row.className = 'ain-option-row d-flex align-items-center gap-2 mb-2';
+        row.innerHTML =
+            '<input type="text" name="questions[' + qIdx + '][options][' + oIdx + '][option_text]"' +
+            ' class="form-control form-control-sm" placeholder="Option text"' +
+            ' value="' + esc(optText) + '" required>' +
+            '<div class="form-check mb-0 flex-shrink-0">' +
+            '<input class="form-check-input" type="checkbox"' +
+            ' name="questions[' + qIdx + '][options][' + oIdx + '][is_correct]"' +
+            ' value="1" id="cor-' + qIdx + '-' + oIdx + '"' +
+            (isCorrect ? ' checked' : '') + '>' +
+            '<label class="form-check-label small" for="cor-' + qIdx + '-' + oIdx + '">Correct</label>' +
+            '</div>' +
+            '<button type="button" class="btn btn-sm btn-link text-danger p-0 flex-shrink-0">Remove</button>';
+
+        list.appendChild(row);
+        row.querySelector('button').addEventListener('click', function () { row.remove(); });
+    }
+
+    function addQuestion(text, type, points) {
+        if (emptyHint) emptyHint.style.display = 'none';
+        var qIdx = qCount++;
+
+        var block = document.createElement('div');
+        block.className = 'card mb-3';
+        block.dataset.qIdx = qIdx;
+        block.innerHTML =
+            '<div class="card-header d-flex justify-content-between align-items-center py-2">' +
+            '<span class="fw-semibold small">Question ' + (qIdx + 1) + '</span>' +
+            '<button type="button" class="btn btn-sm btn-link text-danger p-0 remove-q">Remove</button>' +
+            '</div>' +
+            '<div class="card-body">' +
+            '<div class="mb-3">' +
+            '<label class="form-label fw-semibold small">Question Text <span class="text-danger">*</span></label>' +
+            '<textarea name="questions[' + qIdx + '][question]" class="form-control" rows="2" required>' + esc(text) + '</textarea>' +
+            '</div>' +
+            '<div class="row g-2 mb-3">' +
+            '<div class="col-md-5">' +
+            '<label class="form-label fw-semibold small">Type</label>' +
+            '<select name="questions[' + qIdx + '][type]" class="form-select form-select-sm">' +
+            '<option value="single"' + (!type || type === 'single' ? ' selected' : '') + '>Single Choice</option>' +
+            '<option value="multiple"' + (type === 'multiple' ? ' selected' : '') + '>Multiple Choice</option>' +
+            '<option value="true_false"' + (type === 'true_false' ? ' selected' : '') + '>True or False</option>' +
+            '</select></div>' +
+            '<div class="col-md-3">' +
+            '<label class="form-label fw-semibold small">Points</label>' +
+            '<input type="number" name="questions[' + qIdx + '][points]" class="form-control form-control-sm" min="1" value="' + (points || 1) + '" required>' +
+            '</div></div>' +
+            '<p class="small fw-semibold mb-2">Options <span class="fw-normal text-muted">(tick "Correct" for right answer(s))</span></p>' +
+            '<div class="ain-options-list mb-2"></div>' +
+            '<button type="button" class="btn btn-sm btn-outline-secondary add-opt"><i class="bi bi-plus-lg me-1"></i>Add Option</button>' +
+            '</div>';
+
+        questionsList.appendChild(block);
+        block.querySelector('.remove-q').addEventListener('click', function () { block.remove(); });
+        block.querySelector('.add-opt').addEventListener('click', function () { addOption(block); });
+
+        return block;
+    }
+
+    addQuestionBtn.addEventListener('click', function () {
+        var block = addQuestion();
+        addOption(block);
+        addOption(block);
+    });
+
+    if (typeof existingAssessment !== 'undefined' && existingAssessment && existingAssessment.questions) {
+        existingAssessment.questions.forEach(function (q) {
+            var block = addQuestion(q.question, q.type, q.points);
+            (q.options || []).forEach(function (opt) { addOption(block, opt.option_text, opt.is_correct); });
+        });
+    }
+}
+
+// ── Assessment Countdown Timer ─────────────────────────────────────
+// Usage: initAssessmentTimer(totalSeconds) — auto-submits form#assessment-form at 0.
+function initAssessmentTimer(totalSeconds) {
+    var remaining = totalSeconds;
+    var timerEl   = document.getElementById('assessment-timer');
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function tick() {
+        if (!timerEl) return;
+        timerEl.textContent = pad(Math.floor(remaining / 60)) + ':' + pad(remaining % 60);
+        if (remaining <= 60) timerEl.classList.add('text-danger', 'fw-bold');
+    }
+
+    tick();
+
+    var iv = setInterval(function () {
+        remaining--;
+        tick();
+        if (remaining <= 0) {
+            clearInterval(iv);
+            var form = document.getElementById('assessment-form');
+            if (form) form.submit();
+        }
+    }, 1000);
+}
+
 const moduleCompleteButton = document.getElementById('btn-mark-complete');
 if (moduleCompleteButton) {
     markModuleComplete(

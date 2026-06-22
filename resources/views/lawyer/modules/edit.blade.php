@@ -94,4 +94,46 @@
     </form>
 </div>
 
+{{-- Assessment Panel --}}
+<div class="card border-0 shadow-sm mt-4 p-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h6 class="fw-bold mb-0">Knowledge Assessment</h6>
+        @if ($module->assessment)
+            <div class="d-flex gap-2">
+                <a href="{{ route('lawyer.assessment.edit', [$module->id, $module->assessment->id]) }}"
+                   class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-pencil me-1"></i>Edit Assessment
+                </a>
+                <form method="POST"
+                      action="{{ route('lawyer.assessment.destroy', [$module->id, $module->assessment->id]) }}"
+                      onsubmit="return confirm('Delete this assessment and all its questions?')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                        <i class="bi bi-trash me-1"></i>Delete
+                    </button>
+                </form>
+            </div>
+        @else
+            <a href="{{ route('lawyer.assessment.create', $module->id) }}" class="btn btn-sm ain-btn-accent">
+                <i class="bi bi-plus-lg me-1"></i>Add Assessment
+            </a>
+        @endif
+    </div>
+
+    @if ($module->assessment)
+        <div class="d-flex flex-wrap gap-3 text-muted small">
+            <span><i class="bi bi-question-circle me-1"></i>{{ $module->assessment->questions()->count() }} questions</span>
+            <span><i class="bi bi-percent me-1"></i>{{ $module->assessment->passing_score }}% to pass</span>
+            @if ($module->assessment->time_limit_minutes)
+                <span><i class="bi bi-clock me-1"></i>{{ $module->assessment->time_limit_minutes }} min</span>
+            @endif
+        </div>
+    @else
+        <p class="text-muted small mb-0">
+            No assessment attached. Citizens won't see a "Take Assessment" button on this module.
+        </p>
+    @endif
+</div>
+
 @endsection

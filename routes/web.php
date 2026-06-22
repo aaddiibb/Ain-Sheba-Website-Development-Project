@@ -36,6 +36,11 @@ Route::middleware(['auth', 'role:citizen'])->prefix('citizen')->name('citizen.')
     Route::post('/register-program/{program}', [Citizen\RegistrationController::class, 'store'])->name('register.program');
     Route::get('/learn/{programSlug}/modules/{module}', [Citizen\ModuleController::class, 'show'])->name('module.show');
     Route::post('/modules/{module}/complete', [Citizen\ModuleController::class, 'markComplete'])->name('module.complete');
+    Route::get('/assessments/{assessment}', [Citizen\AssessmentController::class, 'show'])->name('assessment.show');
+    Route::get('/assessments/{assessment}/take', [Citizen\AssessmentController::class, 'take'])->name('assessment.take');
+    Route::post('/assessments/{assessment}/submit', [Citizen\AssessmentController::class, 'submit'])->name('assessment.submit');
+    Route::get('/attempts/{attempt}', [Citizen\AssessmentController::class, 'result'])->name('assessment.result');
+
     Route::get('/consultations', [Citizen\ConsultationController::class, 'index'])->name('consultations.index');
     Route::get('/book-consultation/{lawyer}', [Citizen\ConsultationController::class, 'showBooking'])->name('consultation.book');
     Route::post('/book-consultation/{lawyer}', [Citizen\ConsultationController::class, 'store'])->name('consultation.store');
@@ -60,6 +65,12 @@ Route::middleware(['auth', 'role:lawyer'])->prefix('lawyer')->name('lawyer.')->g
     Route::patch('/profile', [Lawyer\ProfileController::class, 'update'])->name('profile.update');
     Route::get('/password', [Lawyer\ProfileController::class, 'showChangePassword'])->name('password');
     Route::patch('/password', [Lawyer\ProfileController::class, 'updatePassword'])->name('password.update');
+
+    Route::get('/modules/{module}/assessment/create', [Lawyer\AssessmentController::class, 'create'])->name('assessment.create');
+    Route::post('/modules/{module}/assessment', [Lawyer\AssessmentController::class, 'store'])->name('assessment.store');
+    Route::get('/modules/{module}/assessment/{assessment}/edit', [Lawyer\AssessmentController::class, 'edit'])->name('assessment.edit');
+    Route::patch('/modules/{module}/assessment/{assessment}', [Lawyer\AssessmentController::class, 'update'])->name('assessment.update');
+    Route::delete('/modules/{module}/assessment/{assessment}', [Lawyer\AssessmentController::class, 'destroy'])->name('assessment.destroy');
 
     Route::get('/consultations', [Lawyer\ConsultationController::class, 'index'])->name('consultations.index');
     Route::patch('/consultations/{consultation}/status', [Lawyer\ConsultationController::class, 'updateStatus'])->name('consultations.status');
