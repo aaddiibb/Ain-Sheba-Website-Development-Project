@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Models\Certificate;
 use App\Models\LawyerAvailability;
 use App\Models\LegalArea;
 use App\Models\Program;
@@ -137,6 +138,15 @@ class PublicController extends Controller
             ->withQueryString();
 
         return view('public.lawyers.index', compact('lawyers'));
+    }
+
+    public function publicVerify(string $code)
+    {
+        $certificate = Certificate::with(['citizen', 'program'])
+            ->where('certificate_code', $code)
+            ->first();
+
+        return view('public.certificate_verify', compact('certificate', 'code'));
     }
 
     public function searchSuggest(Request $request)

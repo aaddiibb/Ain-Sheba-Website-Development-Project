@@ -159,7 +159,72 @@
                 <div class="tab-pane fade" id="feedback" role="tabpanel">
                     @php
                         $avgRating = $program->feedback->avg('rating') ?? 0;
+                        $myFeedback = auth()->check() ? $program->feedback->firstWhere('citizen_id', auth()->id()) : null;
                     @endphp
+
+                    {{-- Submit / Edit Feedback Form (registered citizens only) --}}
+                    @if (auth()->check() && auth()->user()->isCitizen() && $isRegistered)
+                        <div class="card border-0 bg-light mb-4">
+                            <div class="card-body">
+                                <h6 class="fw-semibold mb-3">
+                                    {{ $myFeedback ? 'Update Your Feedback' : 'Share Your Feedback' }}
+                                </h6>
+
+                                @if (session('success'))
+                                    <div class="alert alert-success py-2 mb-3">{{ session('success') }}</div>
+                                @endif
+                                @if (session('error'))
+                                    <div class="alert alert-danger py-2 mb-3">{{ session('error') }}</div>
+                                @endif
+
+                                <form action="{{ route('citizen.feedback.store', $program->id) }}" method="POST">
+                                    @csrf
+                                    <div class="mb-3">
+                                        <label class="form-label small fw-semibold">Rating</label>
+                                        <div id="star-picker" class="d-flex gap-1 mb-1" style="cursor:pointer;font-size:1.6rem;">
+                                            @for ($s = 1; $s <= 5; $s++)
+                                                <i class="bi bi-star{{ $myFeedback && $s <= $myFeedback->rating ? '-fill' : '' }} ain-star text-warning"
+                                                   data-value="{{ $s }}"></i>
+                                            @endfor
+                                        </div>
+                                        <input type="hidden" id="rating-input" name="rating" value="{{ $myFeedback->rating ?? '' }}" required>
+                                        @error('rating') <small class="text-danger">{{ $message }}</small> @enderror
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label small fw-semibold">Comment <span class="text-muted">(optional)</span></label>
+                                        <textarea name="comment" class="form-control" rows="3" maxlength="1000"
+                                                  placeholder="Share your experience…">{{ old('comment', $myFeedback->comment ?? '') }}</textarea>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <button type="submit" class="btn btn-sm ain-btn-accent">
+                                            <i class="bi bi-send me-1"></i>{{ $myFeedback ? 'Update' : 'Submit' }}
+                                        </button>
+                                        @if ($myFeedback)
+                                            <form action="{{ route('citizen.feedback.destroy', $myFeedback->id) }}" method="POST" class="d-inline">
+                                                @csrf @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                        onclick="return confirm('Remove your feedback?')">
+                                                    <i class="bi bi-trash me-1"></i>Remove
+                                                </button>
+                                            </form>
+                                        @endif
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    @elseif (!auth()->check() || !auth()->user()->isCitizen())
+                        <div class="alert alert-light border mb-4">
+                            <i class="bi bi-info-circle me-1"></i>
+                            <a href="{{ route('login') }}">Log in</a> and register for this program to leave feedback.
+                        </div>
+                    @elseif (!$isRegistered)
+                        <div class="alert alert-light border mb-4">
+                            <i class="bi bi-info-circle me-1"></i>
+                            Register for this program to leave feedback.
+                        </div>
+                    @endif
+
+                    {{-- Average Rating Summary --}}
                     @if ($program->feedback->count() > 0)
                         <div class="mb-4 p-3 border rounded bg-light text-center">
                             <div class="display-5 fw-bold text-warning">{{ number_format($avgRating, 1) }}</div>
@@ -187,7 +252,7 @@
                             </div>
                         @endforeach
                     @else
-                        <p class="text-muted">No feedback yet for this program.</p>
+                        <p class="text-muted">No feedback yet. Be the first to review this program.</p>
                     @endif
                 </div>
 
@@ -244,9 +309,18 @@
                             <i class="bi bi-play-circle me-1"></i>Continue Learning
                         </a>
                     @else
-                        <a href="#" class="btn btn-success w-100 mb-2">
-                            <i class="bi bi-award me-1"></i>View Certificate
-                        </a>
+                        @php
+                            $sidebarCert = $program->certificates()->where('citizen_id', auth()->id())->first();
+                        @endphp
+                        @if ($sidebarCert)
+                            <a href="{{ route('citizen.certificate.show', $sidebarCert->certificate_code) }}" class="btn btn-success w-100 mb-2">
+                                <i class="bi bi-award me-1"></i>View Certificate
+                            </a>
+                        @else
+                            <span class="btn btn-outline-success w-100 mb-2 disabled">
+                                <i class="bi bi-award me-1"></i>Certificate Pending
+                            </span>
+                        @endif
                     @endif
                 @elseif (auth()->check() && auth()->user()->isCitizen())
                     <form action="{{ route('citizen.register.program', $program->id) }}" method="POST">

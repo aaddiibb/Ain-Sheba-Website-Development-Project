@@ -341,3 +341,35 @@ if (moduleCompleteButton) {
         document.querySelector('meta[name="csrf-token"]')?.content || ''
     );
 }
+
+function initStarPicker(containerId, inputId) {
+    var container = document.getElementById(containerId);
+    var input = document.getElementById(inputId);
+    if (!container || !input) return;
+
+    var stars = container.querySelectorAll('.ain-star');
+
+    function fill(upTo) {
+        stars.forEach(function (s, idx) {
+            s.classList.toggle('bi-star-fill', idx < upTo);
+            s.classList.toggle('bi-star', idx >= upTo);
+        });
+    }
+
+    stars.forEach(function (star, idx) {
+        star.addEventListener('mouseenter', function () { fill(idx + 1); });
+        star.addEventListener('click', function () {
+            input.value = idx + 1;
+            fill(idx + 1);
+        });
+    });
+
+    container.addEventListener('mouseleave', function () {
+        fill(parseInt(input.value) || 0);
+    });
+
+    // Restore saved value on load
+    if (input.value) fill(parseInt(input.value));
+}
+
+initStarPicker('star-picker', 'rating-input');

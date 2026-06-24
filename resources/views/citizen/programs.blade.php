@@ -50,18 +50,23 @@
                     </p>
 
                     @if ($reg->completed_at)
+                        @php $cert = $reg->program->certificates->first(); @endphp
                         <div class="d-flex gap-2 flex-column">
                             <span class="badge bg-success py-2">
                                 <i class="bi bi-check-circle me-1"></i>Completed
                             </span>
-                            <a href="#" class="btn btn-sm btn-outline-success">View Certificate</a>
+                            @if ($cert)
+                                <a href="{{ route('citizen.certificate.show', $cert->certificate_code) }}" class="btn btn-sm btn-outline-success">
+                                    <i class="bi bi-award me-1"></i>View Certificate
+                                </a>
+                            @endif
                         </div>
                     @else
                         @php $nextModule = $reg->nextModule(); @endphp
                         @if ($nextModule)
                             <a href="{{ route('citizen.module.show', [$reg->program->slug, $nextModule->id]) }}" class="btn btn-sm ain-btn-accent">Continue Learning</a>
                         @else
-                            <a href="#" class="btn btn-sm btn-outline-success">View Certificate</a>
+                            <span class="btn btn-sm btn-outline-secondary disabled">All modules done</span>
                         @endif
                     @endif
                 </div>

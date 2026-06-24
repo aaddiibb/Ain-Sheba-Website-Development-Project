@@ -7,6 +7,9 @@ use App\Http\Controllers\Admin;
 use App\Http\Controllers\Public\PublicController;
 use Illuminate\Support\Facades\Route;
 
+//--- Certificate Public Verification ---//
+Route::get('/verify/{code}', [PublicController::class, 'publicVerify'])->name('certificate.verify');
+
 //--- Public Routes ---//
 Route::get('/', [PublicController::class, 'home'])->name('home');
 Route::get('/about', [PublicController::class, 'about'])->name('about');
@@ -45,6 +48,11 @@ Route::middleware(['auth', 'role:citizen'])->prefix('citizen')->name('citizen.')
     Route::get('/book-consultation/{lawyer}', [Citizen\ConsultationController::class, 'showBooking'])->name('consultation.book');
     Route::post('/book-consultation/{lawyer}', [Citizen\ConsultationController::class, 'store'])->name('consultation.store');
     Route::patch('/consultations/{consultation}/cancel', [Citizen\ConsultationController::class, 'cancel'])->name('consultation.cancel');
+
+    Route::get('/certificates/{code}', [Citizen\CertificateController::class, 'show'])->name('certificate.show');
+    Route::get('/certificates/{code}/download', [Citizen\CertificateController::class, 'download'])->name('certificate.download');
+    Route::post('/programs/{program}/feedback', [Citizen\FeedbackController::class, 'store'])->name('feedback.store');
+    Route::delete('/feedback/{feedback}', [Citizen\FeedbackController::class, 'destroy'])->name('feedback.destroy');
 });
 
 //--- Lawyer Routes ---//

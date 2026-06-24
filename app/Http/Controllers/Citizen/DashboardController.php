@@ -27,6 +27,11 @@ class DashboardController extends Controller
 
         $continuePrograms = $registrations->filter(fn($r) => is_null($r->completed_at))->take(3);
 
+        $certificates = Certificate::where('citizen_id', $citizen->id)
+            ->with('program')
+            ->orderByDesc('issued_at')
+            ->get();
+
         $recommended = Program::where('status', 'published')
             ->whereNotIn('id', $registrations->pluck('program_id'))
             ->with(['lawyer', 'legalArea'])
@@ -49,6 +54,7 @@ class DashboardController extends Controller
             'completed',
             'totalCertificates',
             'continuePrograms',
+            'certificates',
             'recommended',
             'upcomingConsultations'
         ));

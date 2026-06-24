@@ -42,6 +42,33 @@
     </div>
 </div>
 
+{{-- My Certificates --}}
+@if ($certificates->isNotEmpty())
+<div class="mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-semibold mb-0"><i class="bi bi-award me-2" style="color:var(--ain-accent)"></i>My Certificates</h5>
+    </div>
+    <div class="card border-0 shadow-sm">
+        <ul class="list-group list-group-flush">
+            @foreach ($certificates as $cert)
+            <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                <div>
+                    <div class="fw-semibold">{{ $cert->program->title ?? '—' }}</div>
+                    <small class="text-muted">
+                        <i class="bi bi-calendar3 me-1"></i>Issued {{ $cert->issued_at->format('d M Y') }}
+                    </small>
+                </div>
+                <a href="{{ route('citizen.certificate.show', $cert->certificate_code) }}"
+                   class="btn btn-sm btn-outline-success">
+                    <i class="bi bi-eye me-1"></i>View
+                </a>
+            </li>
+            @endforeach
+        </ul>
+    </div>
+</div>
+@endif
+
 {{-- Continue Learning --}}
 @if ($continuePrograms->isNotEmpty())
 <div class="mb-4">

@@ -526,3 +526,40 @@ main {
     margin-right: 0.5rem;
     width: 1rem;
 }
+
+/* === Certificate === */
+.ain-certificate-wrapper {
+    border: 6px double var(--ain-primary);
+    padding: 3rem;
+    max-width: 900px;
+    margin: 2rem auto;
+    text-align: center;
+    background: #fff;
+    border-radius: 4px;
+}
+
+.ain-certificate-inner {
+    border: 2px solid var(--ain-accent);
+    padding: 2rem;
+}
+
+.ain-certificate-name {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--ain-primary);
+    letter-spacing: .05em;
+}
+
+.ain-star {
+    cursor: pointer;
+    transition: transform .1s;
+}
+
+.ain-star:hover {
+    transform: scale(1.15);
+}
+
+@media print {
+    nav, footer, .d-print-none { display: none !important; }
+    body { background: white; }
+}
