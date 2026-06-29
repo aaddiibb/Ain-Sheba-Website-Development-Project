@@ -90,4 +90,18 @@ Route::middleware(['auth', 'role:lawyer'])->prefix('lawyer')->name('lawyer.')->g
 //--- Admin Routes ---//
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [Admin\DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/users', [Admin\UserController::class, 'index'])->name('users.index');
+    Route::get('/users/{user}', [Admin\UserController::class, 'show'])->name('users.show');
+    Route::patch('/users/{user}/toggle', [Admin\UserController::class, 'toggleActive'])->name('users.toggle');
+    Route::delete('/users/{user}', [Admin\UserController::class, 'destroy'])->name('users.destroy');
+
+    Route::get('/programs', [Admin\ProgramController::class, 'index'])->name('programs.index');
+    Route::get('/programs/{program}', [Admin\ProgramController::class, 'show'])->name('programs.show');
+    Route::patch('/programs/{program}/status', [Admin\ProgramController::class, 'updateStatus'])->name('programs.status');
+    Route::delete('/programs/{program}', [Admin\ProgramController::class, 'destroy'])->name('programs.destroy');
+
+    Route::resource('legal-areas', Admin\LegalAreaController::class)->names('legal-areas');
+
+    Route::get('/consultations', [Admin\ConsultationController::class, 'index'])->name('consultations.index');
 });
