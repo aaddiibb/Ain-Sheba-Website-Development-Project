@@ -46,22 +46,57 @@
                     </li>
                 </ul>
 
+                {{-- Global Search (desktop only) --}}
+                <div class="position-relative d-none d-md-block me-2">
+                    <input type="text" id="ain-nav-search" class="form-control form-control-sm"
+                           placeholder="Search programs…" style="min-width:200px;" autocomplete="off"
+                           aria-label="Search programs">
+                    <div id="ain-search-results" class="position-absolute bg-white shadow rounded"
+                         style="display:none;z-index:9999;min-width:300px;top:100%;left:0;max-height:300px;overflow-y:auto;"></div>
+                </div>
+
                 <div class="d-flex align-items-center gap-2">
                     @guest
                         <a href="{{ route('login') }}" class="btn btn-outline-light btn-sm px-3">Login</a>
                         <a href="{{ route('register') }}" class="btn ain-btn-accent btn-sm px-3">Register</a>
                     @else
-                        <!-- Notification Bell -->
-                        <a href="#" class="btn btn-link text-white position-relative p-1" title="Notifications">
-                            <i class="bi bi-bell fs-5"></i>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size:0.6rem;">
-                                0
-                            </span>
-                        </a>
+                        {{-- Notification Bell --}}
+                        <div class="dropdown d-inline-block me-1">
+                            <button class="btn btn-sm position-relative" id="notif-bell"
+                                    data-bs-toggle="dropdown" aria-expanded="false" title="Notifications">
+                                <i class="bi bi-bell text-white fs-5"></i>
+                                @php $unread = auth()->user()->unreadNotifications()->count() @endphp
+                                @if ($unread > 0)
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                          style="font-size:.6rem;">{{ $unread }}</span>
+                                @endif
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end shadow"
+                                 style="min-width:320px;max-height:400px;overflow-y:auto;">
+                                <div class="dropdown-header fw-semibold">Notifications</div>
+                                @forelse(auth()->user()->notifications()->latest()->take(5)->get() as $notif)
+                                    <a class="dropdown-item py-2 {{ $notif->read_at ? '' : 'fw-bold bg-light' }}"
+                                       href="{{ $notif->link_url ?? '#' }}"
+                                       onclick="markNotifRead({{ $notif->id }})">
+                                        <div class="small text-muted">{{ $notif->created_at->diffForHumans() }}</div>
+                                        <div>{{ $notif->title }}</div>
+                                        <div class="small text-muted fw-normal">{{ Str::limit($notif->message, 80) }}</div>
+                                    </a>
+                                @empty
+                                    <div class="dropdown-item text-muted small py-3 text-center">No notifications</div>
+                                @endforelse
+                                <div class="dropdown-divider mb-0"></div>
+                                <form method="POST" action="{{ route('notifications.read-all') }}" class="p-0">
+                                    @csrf
+                                    <button class="btn btn-link btn-sm w-100 text-muted">Mark all as read</button>
+                                </form>
+                            </div>
+                        </div>
 
-                        <!-- User Dropdown -->
+                        {{-- User Dropdown --}}
                         <div class="dropdown">
-                            <button class="btn btn-outline-light btn-sm dropdown-toggle d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button class="btn btn-outline-light btn-sm dropdown-toggle d-flex align-items-center gap-2"
+                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-person-circle"></i>
                                 {{ Str::limit(auth()->user()->name, 18) }}
                             </button>
@@ -69,15 +104,15 @@
                                 <li>
                                     @if (auth()->user()->role === 'citizen')
                                         <a class="dropdown-item" href="{{ route('citizen.dashboard') }}">
-                                            <i class="bi bi-person me-2"></i>My Dashboard
+                                            <i class="bi bi-speedometer2 me-2"></i>My Dashboard
                                         </a>
                                     @elseif (auth()->user()->role === 'lawyer')
                                         <a class="dropdown-item" href="{{ route('lawyer.dashboard') }}">
-                                            <i class="bi bi-person me-2"></i>My Dashboard
+                                            <i class="bi bi-speedometer2 me-2"></i>My Dashboard
                                         </a>
                                     @else
                                         <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
-                                            <i class="bi bi-person me-2"></i>My Dashboard
+                                            <i class="bi bi-speedometer2 me-2"></i>My Dashboard
                                         </a>
                                     @endif
                                 </li>
@@ -100,6 +135,7 @@
 
     <!-- Page content -->
     <main>
+        @include('components.flash')
         @yield('content')
     </main>
 

@@ -46,15 +46,13 @@ class ConsultationController extends Controller
             'lawyer_response' => $request->lawyer_response,
         ]);
 
-        try {
-            Notification::create([
-                'user_id'  => $consultation->citizen_id,
-                'type'     => 'consultation_update',
-                'title'    => 'Consultation ' . $request->status,
-                'message'  => 'Your consultation on ' . $consultation->booked_date->format('d M Y') . ' has been ' . $request->status . '.',
-                'link_url' => route('citizen.consultations.index'),
-            ]);
-        } catch (\Exception $e) {}
+        Notification::create([
+            'user_id'  => $consultation->citizen_id,
+            'type'     => 'consultation_update',
+            'title'    => 'Consultation ' . ucfirst($request->status),
+            'message'  => 'Your consultation on ' . $consultation->booked_date->format('d M Y') . ' has been ' . $request->status . '.',
+            'link_url' => route('citizen.consultations.index'),
+        ]);
 
         return redirect()->back()->with('success', 'Consultation updated.');
     }

@@ -4,16 +4,24 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Citizen;
 use App\Http\Controllers\Lawyer;
 use App\Http\Controllers\Admin;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Public\PublicController;
 use Illuminate\Support\Facades\Route;
 
 //--- Certificate Public Verification ---//
 Route::get('/verify/{code}', [PublicController::class, 'publicVerify'])->name('certificate.verify');
 
+//--- Notification Routes (auth only) ---//
+Route::middleware('auth')->group(function () {
+    Route::post('/notifications/{notification}/read', [NotificationController::class, 'markRead'])->name('notifications.read');
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllRead'])->name('notifications.read-all');
+});
+
 //--- Public Routes ---//
 Route::get('/', [PublicController::class, 'home'])->name('home');
 Route::get('/about', [PublicController::class, 'about'])->name('about');
 Route::get('/contact', [PublicController::class, 'contact'])->name('contact');
+Route::post('/contact', [PublicController::class, 'contactSubmit'])->name('contact.submit');
 Route::get('/programs', [PublicController::class, 'programs'])->name('programs.index');
 Route::get('/programs/{slug}', [PublicController::class, 'programShow'])->name('programs.show');
 Route::get('/lawyers', [PublicController::class, 'lawyers'])->name('lawyers.index');
@@ -104,4 +112,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('legal-areas', Admin\LegalAreaController::class)->names('legal-areas');
 
     Route::get('/consultations', [Admin\ConsultationController::class, 'index'])->name('consultations.index');
+
+    Route::get('/messages', [Admin\ContactMessageController::class, 'index'])->name('messages.index');
+    Route::get('/messages/{message}', [Admin\ContactMessageController::class, 'show'])->name('messages.show');
 });

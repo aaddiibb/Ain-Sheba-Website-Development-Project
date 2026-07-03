@@ -12,18 +12,23 @@ class Notification extends Model
         'title',
         'message',
         'link_url',
-        'is_read',
+        'read_at',
     ];
 
     protected function casts(): array
     {
         return [
-            'is_read' => 'boolean',
+            'read_at' => 'datetime',
         ];
     }
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function scopeUnread($query)
+    {
+        return $query->whereNull('read_at');
     }
 }

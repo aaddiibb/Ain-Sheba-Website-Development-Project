@@ -114,18 +114,13 @@ class ModuleController extends Controller
                 ]);
             }
 
-            try {
-                if (class_exists('App\\Models\\Notification')) {
-                    \App\Models\Notification::create([
-                        'user_id' => $module->program->lawyer_id,
-                        'type' => 'program_completed',
-                        'title' => 'Program Completed',
-                        'message' => Auth::user()->name . ' has completed your program: ' . $module->program->title,
-                        'link_url' => route('lawyer.consultations.index'),
-                    ]);
-                }
-            } catch (\Exception $e) {
-            }
+            \App\Models\Notification::create([
+                'user_id'  => $module->program->lawyer_id,
+                'type'     => 'program_completed',
+                'title'    => 'Program Completed',
+                'message'  => Auth::user()->name . ' has completed your program: ' . $module->program->title,
+                'link_url' => route('lawyer.consultations.index'),
+            ]);
         }
 
         return response()->json([

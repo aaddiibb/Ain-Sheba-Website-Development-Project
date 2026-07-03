@@ -50,7 +50,7 @@
             {{-- Contact Form --}}
             <div class="col-md-8">
                 <div class="card border-0 shadow-sm p-4">
-                    <form action="#" method="POST">
+                    <form action="{{ route('contact.submit') }}" method="POST">
                         @csrf
                         <div class="row g-3">
                             <div class="col-sm-6">

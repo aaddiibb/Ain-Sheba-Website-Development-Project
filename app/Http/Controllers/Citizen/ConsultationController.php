@@ -74,15 +74,13 @@ class ConsultationController extends Controller
             'citizen_notes' => $request->citizen_notes,
         ]);
 
-        try {
-            Notification::create([
-                'user_id'  => $lawyerId,
-                'type'     => 'new_consultation',
-                'title'    => 'New Consultation Request',
-                'message'  => auth()->user()->name . ' has requested a consultation on ' . $request->booked_date . ' at ' . $request->time_slot,
-                'link_url' => route('lawyer.consultations.index'),
-            ]);
-        } catch (\Exception $e) {}
+        Notification::create([
+            'user_id'  => $lawyerId,
+            'type'     => 'new_consultation',
+            'title'    => 'New Consultation Request',
+            'message'  => auth()->user()->name . ' has requested a consultation on ' . $request->booked_date . ' at ' . $request->time_slot,
+            'link_url' => route('lawyer.consultations.index'),
+        ]);
 
         return redirect()->route('citizen.consultations.index')
             ->with('success', 'Consultation request sent! The lawyer will confirm shortly.');

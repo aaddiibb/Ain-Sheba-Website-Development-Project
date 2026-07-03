@@ -39,9 +39,9 @@
             <i class="bi bi-tags"></i> Legal Areas
         </a>
 
-        <a href="#"
+        <a href="{{ route('admin.messages.index') }}"
            class="ain-sidebar-link {{ request()->routeIs('admin.messages.*') ? 'active' : '' }}">
-            <i class="bi bi-envelope"></i> Messages <span class="badge bg-secondary ms-1" style="font-size:.65rem">Day 13</span>
+            <i class="bi bi-envelope"></i> Messages
         </a>
 
         <form method="POST" action="{{ route('logout') }}" class="mt-3">

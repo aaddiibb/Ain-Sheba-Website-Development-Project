@@ -6,6 +6,19 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
+    // ── Auto-dismiss flash alerts ─────────────────────────────────────
+    document.querySelectorAll('.ain-flash').forEach(function (el) {
+        setTimeout(function () {
+            var alert = bootstrap.Alert.getOrCreateInstance(el);
+            if (alert) alert.close();
+        }, 4000);
+    });
+
+    // ── Nav Search (debounced, 300ms) ────────────────────────────────
+    initNavSearch();
+
+
+
     // ── Counter Animation ──────────────────────────────────────────
     // Animates .ain-counter[data-target] from 0 → target over 1.5s
     // with ease-out. Triggers once when 40% of element is in viewport.
@@ -373,3 +386,49 @@ function initStarPicker(containerId, inputId) {
 }
 
 initStarPicker('star-picker', 'rating-input');
+
+// ── Notification read (AJAX) ──────────────────────────────────────
+function markNotifRead(id) {
+    var csrf = document.querySelector('meta[name="csrf-token"]');
+    if (!csrf) return;
+    fetch('/notifications/' + id + '/read', {
+        method: 'POST',
+        headers: { 'X-CSRF-TOKEN': csrf.content },
+    });
+}
+
+// ── Nav search with debounce ──────────────────────────────────────
+function initNavSearch() {
+    var input = document.getElementById('ain-nav-search');
+    var resultsDiv = document.getElementById('ain-search-results');
+    if (!input || !resultsDiv) return;
+
+    var debounceTimer;
+
+    input.addEventListener('input', function () {
+        clearTimeout(debounceTimer);
+        var q = this.value.trim();
+        if (q.length < 2) { resultsDiv.style.display = 'none'; return; }
+
+        debounceTimer = setTimeout(function () {
+            fetch('/api/search-suggest?q=' + encodeURIComponent(q))
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    if (!data.results || !data.results.length) {
+                        resultsDiv.style.display = 'none';
+                        return;
+                    }
+                    resultsDiv.innerHTML = data.results.map(function (p) {
+                        return '<a href="/programs/' + p.slug + '" class="d-block p-2 text-decoration-none text-dark border-bottom small">' + p.title + '</a>';
+                    }).join('');
+                    resultsDiv.style.display = 'block';
+                });
+        }, 300);
+    });
+
+    document.addEventListener('click', function (e) {
+        if (!e.target.closest('#ain-nav-search') && !e.target.closest('#ain-search-results')) {
+            resultsDiv.style.display = 'none';
+        }
+    });
+}

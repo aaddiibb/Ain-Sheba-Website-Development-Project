@@ -102,4 +102,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Consultation::class, 'citizen_id');
     }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    public function unreadNotifications()
+    {
+        return $this->hasMany(Notification::class)->whereNull('read_at');
+    }
 }

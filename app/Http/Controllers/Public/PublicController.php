@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
 use App\Models\Certificate;
+use App\Models\ContactMessage;
 use App\Models\LawyerAvailability;
 use App\Models\LegalArea;
 use App\Models\Program;
@@ -33,6 +34,20 @@ class PublicController extends Controller
     public function contact()
     {
         return view('public.contact');
+    }
+
+    public function contactSubmit(Request $request)
+    {
+        $request->validate([
+            'name'    => 'required|string|max:255',
+            'email'   => 'required|email|max:255',
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string|min:10',
+        ]);
+
+        ContactMessage::create($request->validated());
+
+        return redirect()->back()->with('success', "Your message has been sent. We'll get back to you within 2 business days.");
     }
 
     public function programs(Request $request)
