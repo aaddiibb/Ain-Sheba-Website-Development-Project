@@ -22,6 +22,9 @@ class User extends Authenticatable
         'bio',
         'is_active',
         'consultation_fee',
+        'google_access_token',
+        'google_refresh_token',
+        'google_token_expires_at',
     ];
 
     protected $hidden = [
@@ -34,8 +37,9 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'is_active'        => 'boolean',
-            'consultation_fee' => 'decimal:2',
+            'is_active'               => 'boolean',
+            'consultation_fee'        => 'decimal:2',
+            'google_token_expires_at' => 'datetime',
         ];
     }
 

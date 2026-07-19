@@ -193,5 +193,11 @@
     <!-- Page-specific scripts -->
     @stack('scripts')
 
+    @auth
+        @if(auth()->user()->role === 'citizen')
+            @include('components.chatbot')
+        @endif
+    @endauth
+
 </body>
 </html>

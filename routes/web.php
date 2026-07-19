@@ -61,6 +61,8 @@ Route::middleware(['auth', 'role:citizen'])->prefix('citizen')->name('citizen.')
     Route::get('/certificates/{code}/download', [Citizen\CertificateController::class, 'download'])->name('certificate.download');
     Route::post('/programs/{program}/feedback', [Citizen\FeedbackController::class, 'store'])->name('feedback.store');
     Route::delete('/feedback/{feedback}', [Citizen\FeedbackController::class, 'destroy'])->name('feedback.destroy');
+
+    Route::post('/chatbot', [Citizen\ChatbotController::class, 'ask'])->name('chatbot.ask');
 });
 
 //--- Lawyer Routes ---//
@@ -93,6 +95,11 @@ Route::middleware(['auth', 'role:lawyer'])->prefix('lawyer')->name('lawyer.')->g
     Route::get('/availability', [Lawyer\AvailabilityController::class, 'index'])->name('availability.index');
     Route::post('/availability', [Lawyer\AvailabilityController::class, 'store'])->name('availability.store');
     Route::delete('/availability/{availability}', [Lawyer\AvailabilityController::class, 'destroy'])->name('availability.destroy');
+
+    Route::get('/google/connect', [Lawyer\GoogleCalendarController::class, 'redirectToGoogle'])->name('google.connect');
+    Route::get('/google/callback', [Lawyer\GoogleCalendarController::class, 'handleCallback'])->name('google.callback');
+    Route::post('/google/disconnect', [Lawyer\GoogleCalendarController::class, 'disconnect'])->name('google.disconnect');
+    Route::get('/google/events', [Lawyer\GoogleCalendarController::class, 'getUpcomingEvents'])->name('google.events');
 });
 
 //--- Admin Routes ---//

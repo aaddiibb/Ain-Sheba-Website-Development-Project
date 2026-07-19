@@ -1,59 +1,181 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Ain Sheba — Legal Awareness & Civic Rights Training Portal
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A full-stack web application that helps Bangladeshi citizens understand their legal rights through structured online programs, live consultations with lawyers, and verified certificates of completion.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Tech Stack
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+| Layer | Technology |
+|---|---|
+| Backend | Laravel 12, PHP 8.2 |
+| Frontend | Blade templates, Bootstrap 5, Vanilla JS |
+| Database | MySQL 8 |
+| PDF generation | `barryvdh/laravel-dompdf` |
+| Icons | Bootstrap Icons |
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Setup
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Requirements
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- PHP 8.2+
+- Composer
+- MySQL 8
+- XAMPP (or any LAMP/LEMP stack)
 
-## Laravel Sponsors
+### Installation
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+# Clone the repository
+git clone <repo-url>
+cd "Ain Sheba"
 
-### Premium Partners
+# Install PHP dependencies
+composer install
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+# Copy and configure environment
+cp .env.example .env
+php artisan key:generate
 
-## Contributing
+# Edit .env — set DB_DATABASE, DB_USERNAME, DB_PASSWORD
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+# Run migrations and seed demo data
+php artisan migrate:fresh --seed
+```
 
-## Code of Conduct
+### Serving locally
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Place the project folder inside `xampp/htdocs/` and start Apache + MySQL via XAMPP Control Panel, then visit `http://localhost/Ain%20Sheba/public`.
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Default Credentials
 
-## License
+All accounts use password: **`password`**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Role | Email |
+|---|---|
+| Admin | admin@ainsheba.test |
+| Lawyer 1 | lawyer1@ainsheba.test |
+| Lawyer 2 | lawyer2@ainsheba.test |
+| Lawyer 3 | lawyer3@ainsheba.test |
+| Lawyer 4 | lawyer4@ainsheba.test |
+| Citizen 1–12 | citizen1@ainsheba.test … citizen12@ainsheba.test |
+
+---
+
+## Key Features
+
+### Public
+- Browse 8 published legal awareness programs with filtering by area, level, and language
+- View lawyer profiles with availability, programs, and ratings
+- Public certificate verification by code
+- Contact form
+
+### Citizens
+- Register for programs and track module progress
+- Complete modules and receive a verifiable PDF certificate on completion
+- Book consultations with lawyers by available date and time slot
+- Leave star ratings and reviews for programs
+- Receive in-app notifications (program updates, consultation confirmations)
+
+### Lawyers
+- Create and manage programs with modules, assessments, and resource links
+- Drag-to-reorder modules
+- Set weekly availability schedule for consultations
+- Respond to consultation bookings and manage their status
+
+### Admin
+- Dashboard with platform-wide statistics
+- User management (view, activate/deactivate)
+- Program status management (publish, archive, draft)
+- Legal area management (CRUD)
+- Consultation oversight
+- Contact message inbox
+
+---
+
+## Roles
+
+| Role | Description |
+|---|---|
+| `citizen` | Learners who enrol in programs and book consultations |
+| `lawyer` | Practitioners who create programs and accept consultations |
+| `admin` | Platform administrators with full oversight |
+
+---
+
+## Certificate Verification
+
+Every completed certificate has a unique code (e.g. `CERT-A1B2C3D4E5`). Anyone can verify a certificate at:
+
+```
+/verify/{certificate_code}
+```
+
+---
+
+## Deployment
+
+### XAMPP local demo (Windows)
+
+1. Copy the project folder into `E:\xampp\htdocs\Ain Sheba\`
+2. Open XAMPP Control Panel and start **Apache** and **MySQL**
+3. Create the database: open `http://localhost/phpmyadmin` → New → `ain_sheba_db`
+4. Set `.env` values: `DB_DATABASE=ain_sheba_db`, `DB_USERNAME=root`, `DB_PASSWORD=`
+5. Run in the project root:
+   ```bash
+   composer install --no-dev --optimize-autoloader
+   php artisan key:generate
+   php artisan migrate --force
+   php artisan db:seed --force
+   ```
+6. Visit `http://localhost/Ain%20Sheba/public/`
+
+### Shared hosting (cPanel)
+
+1. Upload all project files (except `public/`) to a private directory, e.g. `~/ain_sheba/`
+2. Upload the contents of `public/` to `public_html/` (or your subdomain's document root)
+3. Edit `public/index.php` — update both `require` paths to point to `~/ain_sheba/`
+4. Create the MySQL database and user via cPanel → MySQL Databases
+5. Set the production `.env`: `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL=https://yourdomain.com`, and DB credentials
+6. SSH into the server and run:
+   ```bash
+   composer install --no-dev --optimize-autoloader
+   php artisan key:generate
+   php artisan migrate --force
+   php artisan db:seed --force
+   php artisan config:cache
+   php artisan route:cache
+   php artisan view:cache
+   ```
+7. Ensure `storage/` and `bootstrap/cache/` are writable: `chmod -R 775 storage bootstrap/cache`
+
+---
+
+## Project Structure (key directories)
+
+```
+app/
+  Http/Controllers/
+    Admin/          — admin panel controllers
+    Citizen/        — citizen dashboard and learning controllers
+    Lawyer/         — lawyer panel controllers
+    Public/         — public-facing pages
+  Models/           — Eloquent models
+database/
+  migrations/       — all schema migrations
+  seeders/          — LegalAreaSeeder + DemoSeeder
+resources/views/
+  admin/            — admin panel Blade views
+  citizen/          — citizen panel Blade views
+  lawyer/           — lawyer panel Blade views
+  public/           — public-facing Blade views
+  layouts/          — shared layout files
+  components/       — reusable Blade components
+public/
+  css/app.css       — custom styles
+  js/app.js         — vanilla JS utilities
+```

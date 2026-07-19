@@ -9,6 +9,22 @@
     <p class="mb-0" style="opacity:.85">Manage your programs and consultations from here.</p>
 </div>
 
+{{-- Google Calendar Connection Banner --}}
+@if(auth()->user()->google_access_token)
+    <div class="alert alert-success d-flex align-items-center justify-content-between mb-4" role="alert">
+        <span><i class="bi bi-google me-2"></i>Google Calendar connected — confirmed consultations are added automatically.</span>
+        <form method="POST" action="{{ route('lawyer.google.disconnect') }}" class="mb-0">
+            @csrf
+            <button type="submit" class="btn btn-sm btn-outline-danger">Disconnect</button>
+        </form>
+    </div>
+@else
+    <div class="alert alert-warning d-flex align-items-center justify-content-between mb-4" role="alert">
+        <span><i class="bi bi-google me-2"></i>Connect Google Calendar to auto-add confirmed consultations.</span>
+        <a href="{{ route('lawyer.google.connect') }}" class="btn btn-sm btn-primary">Connect Google Calendar</a>
+    </div>
+@endif
+
 {{-- Stat Cards — Row 1 --}}
 <div class="row g-3 mb-3">
     <div class="col-md-4">
@@ -115,6 +131,23 @@
             </tbody>
         </table>
     </div>
+@endif
+
+{{-- Upcoming Google Calendar Events (AJAX — only shown when Calendar is connected) --}}
+@if(auth()->user()->google_access_token)
+<div class="card mt-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span><i class="bi bi-calendar3 me-2"></i>Upcoming Consultations <span class="text-muted fw-normal small">(from Google Calendar)</span></span>
+        <button id="loadCalendarBtn" class="btn btn-sm btn-outline-primary">Load Events</button>
+    </div>
+    <div class="card-body" id="calendarEventsResult">
+        <p class="text-muted small mb-0">Click "Load Events" to fetch from Google Calendar without reloading the page.</p>
+    </div>
+</div>
+<script>
+    // URL passed from Blade to the AJAX function (same pattern as Lab 12)
+    const calendarUrl = "{{ route('lawyer.google.events') }}";
+</script>
 @endif
 
 @endsection

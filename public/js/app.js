@@ -387,6 +387,55 @@ function initStarPicker(containerId, inputId) {
 
 initStarPicker('star-picker', 'rating-input');
 
+// ── Google Calendar Event Loader (AJAX — Lab 12 async/await pattern) ─
+// Called when lawyer clicks "Load Events" on the dashboard.
+// calendarUrl is set inline by dashboard.blade.php only when Calendar is connected.
+async function loadCalendarEvents(url) {
+    const resultBox = document.getElementById('calendarEventsResult');
+    if (!resultBox) return;
+
+    resultBox.innerHTML = '<p class="text-muted small mb-0">Loading from Google Calendar...</p>';
+
+    try {
+        const response = await fetch(url, {
+            headers: {
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            },
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) throw new Error(data.error || 'Failed to load events.');
+
+        if (!data.events || data.events.length === 0) {
+            resultBox.innerHTML = '<p class="text-muted small mb-0">No upcoming consultations found in Google Calendar.</p>';
+            return;
+        }
+
+        let html = '<ul class="list-group list-group-flush">';
+        data.events.forEach(function (event) {
+            const start = event.start?.dateTime || event.start?.date || 'N/A';
+            const date  = new Date(start);
+            html += '<li class="list-group-item d-flex justify-content-between align-items-center">' +
+                '<span><i class="bi bi-calendar-check text-success me-2"></i>' + (event.summary || 'Consultation') + '</span>' +
+                '<span class="badge bg-primary">' + date.toLocaleString('en-BD', { timeZone: 'Asia/Dhaka' }) + '</span>' +
+                '</li>';
+        });
+        html += '</ul>';
+        resultBox.innerHTML = html;
+
+    } catch (error) {
+        resultBox.innerHTML = '<p class="text-danger small mb-0"><i class="bi bi-exclamation-circle me-1"></i>' + error.message + '</p>';
+    }
+}
+
+document.getElementById('loadCalendarBtn')?.addEventListener('click', function () {
+    if (typeof calendarUrl !== 'undefined') {
+        loadCalendarEvents(calendarUrl);
+    }
+});
+
 // ── Notification read (AJAX) ──────────────────────────────────────
 function markNotifRead(id) {
     var csrf = document.querySelector('meta[name="csrf-token"]');
