@@ -4,16 +4,19 @@
 
 @section('admin-content')
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h4 class="fw-bold mb-0">Contact Messages</h4>
-    <span class="badge bg-secondary">{{ $messages->total() }} total</span>
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+        <h4 class="mb-1 fw-bold"><i class="bi bi-envelope me-2 text-primary"></i>Contact Messages</h4>
+        <p class="text-muted mb-0 small">Messages submitted through the public contact form.</p>
+    </div>
+    <span class="badge ain-badge-confirmed">{{ $messages->total() }} total</span>
 </div>
 
-<div class="card border-0 shadow-sm">
+<div class="card">
     <div class="card-body p-0">
         <div class="table-responsive">
             <table class="table table-hover mb-0 align-middle">
-                <thead class="table-light">
+                <thead>
                     <tr>
                         <th>Name</th>
                         <th>Email</th>

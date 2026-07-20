@@ -4,14 +4,14 @@
 
 @section('lawyer-content')
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h4 class="fw-bold mb-0">Create Program</h4>
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <h4 class="mb-0 fw-bold"><i class="bi bi-plus-circle me-2 text-primary"></i>Create Program</h4>
     <a href="{{ route('lawyer.programs.index') }}" class="btn btn-sm btn-outline-secondary">
-        <i class="bi bi-arrow-left me-1"></i>Back
+        <i class="bi bi-arrow-left"></i>Back
     </a>
 </div>
 
-<div class="card border-0 shadow-sm p-4">
+<div class="card p-4">
     <form method="POST" action="{{ route('lawyer.programs.store') }}" enctype="multipart/form-data">
         @csrf
 

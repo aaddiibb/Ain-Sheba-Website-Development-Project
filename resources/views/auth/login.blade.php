@@ -8,17 +8,13 @@
         <div class="col-12" style="max-width: 450px;">
             <div class="card shadow-sm">
                 <div class="card-body p-4">
-                    <h2 class="card-title mb-4 text-center fw-bold">Login</h2>
-
-                    @if(session('error'))
-                        <div class="alert alert-danger py-2">{{ session('error') }}</div>
-                    @endif
+                    <h2 class="card-title mb-4 text-center fw-bold"><i class="bi bi-box-arrow-in-right me-2 text-primary"></i>Login</h2>
 
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email Address</label>
+                            <label for="email" class="form-label"><i class="bi bi-envelope me-1 text-primary"></i>Email Address</label>
                             <input
                                 type="email"
                                 id="email"
@@ -34,7 +30,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
+                            <label for="password" class="form-label"><i class="bi bi-key me-1 text-primary"></i>Password</label>
                             <input
                                 type="password"
                                 id="password"
@@ -53,7 +49,7 @@
                         </div>
 
                         <div class="d-grid mb-3">
-                            <button type="submit" class="btn ain-btn-accent">Login</button>
+                            <button type="submit" class="btn ain-btn-accent"><i class="bi bi-box-arrow-in-right"></i>Login</button>
                         </div>
 
                         <p class="text-center mb-0">

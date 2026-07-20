@@ -4,19 +4,13 @@
 
 @section('admin-content')
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h4 class="fw-bold mb-0">Users</h4>
+<div class="mb-4">
+    <h4 class="mb-1 fw-bold"><i class="bi bi-people me-2 text-primary"></i>Users</h4>
+    <p class="text-muted mb-0 small">Manage citizen and lawyer accounts on the platform.</p>
 </div>
 
-@if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show"><i class="bi bi-check-circle me-2"></i>{{ session('success') }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
-@endif
-@if (session('error'))
-    <div class="alert alert-danger alert-dismissible fade show"><i class="bi bi-exclamation-circle me-2"></i>{{ session('error') }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
-@endif
-
 {{-- Filters --}}
-<div class="card border-0 shadow-sm mb-4">
+<div class="card mb-4">
     <div class="card-body">
         <form method="GET" action="{{ route('admin.users.index') }}" class="row g-2 align-items-end">
             <div class="col-md-5">
@@ -43,7 +37,7 @@
 </div>
 
 {{-- Role Tabs --}}
-<ul class="nav nav-tabs mb-3">
+<ul class="nav nav-pills mb-3 gap-2">
     <li class="nav-item">
         <a class="nav-link {{ !request('role') ? 'active' : '' }}"
            href="{{ route('admin.users.index', array_merge(request()->except('role','page'), [])) }}">
@@ -64,11 +58,11 @@
     </li>
 </ul>
 
-<div class="card border-0 shadow-sm">
+<div class="card">
     <div class="card-body p-0">
         <div class="table-responsive">
             <table class="table table-hover mb-0 align-middle">
-                <thead class="table-light">
+                <thead>
                     <tr>
                         <th>Name</th>
                         <th>Email</th>

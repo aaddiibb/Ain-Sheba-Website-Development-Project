@@ -481,3 +481,58 @@ function initNavSearch() {
         }
     });
 }
+
+/* === Day 17 UI/UX Polish — Micro-interactions === */
+
+// Scroll-reveal animation for cards
+(function () {
+    if (!('IntersectionObserver' in window)) return;
+
+    var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.ain-stat-card, .ain-stat-dash, .ain-program-card, .ain-area-card').forEach(function (el) {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+        observer.observe(el);
+    });
+})();
+
+// Active nav link detection (sidebar)
+document.querySelectorAll('.ain-sidebar .nav-link, .ain-sidebar-link').forEach(function (link) {
+    if (link.href === window.location.href) {
+        link.classList.add('active');
+    }
+});
+
+// Table row click to navigate (rows with data-href)
+document.querySelectorAll('tr[data-href]').forEach(function (row) {
+    row.style.cursor = 'pointer';
+    row.addEventListener('click', function () {
+        window.location = row.dataset.href;
+    });
+});
+
+// Delete confirmation with better UX (elements with data-confirm)
+document.querySelectorAll('[data-confirm]').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        var msg = this.dataset.confirm || 'Are you sure?';
+        if (window.confirm(msg)) {
+            var form = this.closest('form');
+            if (form) {
+                form.submit();
+            } else {
+                window.location = this.href;
+            }
+        }
+    });
+});

@@ -18,7 +18,6 @@
             @include('citizen._sidebar', ['user' => auth()->user()])
         </div>
         <div class="col-md-9 p-4">
-            @include('components.flash')
             @yield('citizen-content')
         </div>
     </div>

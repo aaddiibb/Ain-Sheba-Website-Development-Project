@@ -15,20 +15,6 @@
         </ol>
     </nav>
 
-    {{-- FLASH MESSAGES --}}
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
-    @if (session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
-
     <div class="row g-4">
 
         {{-- LEFT COLUMN --}}
@@ -123,7 +109,7 @@
                         {{-- Avatar --}}
                         <div class="flex-shrink-0">
                             @if ($program->lawyer->profile_picture)
-                                <img src="{{ asset('uploads/' . $program->lawyer->profile_picture) }}"
+                                <img src="{{ asset($program->lawyer->profile_picture) }}"
                                      class="rounded-circle" style="width:80px;height:80px;object-fit:cover;" alt="{{ $program->lawyer->name }}">
                             @else
                                 <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold"
@@ -169,13 +155,6 @@
                                 <h6 class="fw-semibold mb-3">
                                     {{ $myFeedback ? 'Update Your Feedback' : 'Share Your Feedback' }}
                                 </h6>
-
-                                @if (session('success'))
-                                    <div class="alert alert-success py-2 mb-3">{{ session('success') }}</div>
-                                @endif
-                                @if (session('error'))
-                                    <div class="alert alert-danger py-2 mb-3">{{ session('error') }}</div>
-                                @endif
 
                                 <form action="{{ route('citizen.feedback.store', $program->id) }}" method="POST">
                                     @csrf
@@ -265,7 +244,7 @@
 
                 {{-- Thumbnail --}}
                 @if ($program->thumbnail)
-                    <img src="{{ asset('uploads/' . $program->thumbnail) }}"
+                    <img src="{{ asset($program->thumbnail) }}"
                          class="img-fluid rounded mb-3" alt="{{ $program->title }}">
                 @else
                     <div class="ain-program-thumb ain-program-thumb-placeholder rounded mb-3 d-flex align-items-center justify-content-center">

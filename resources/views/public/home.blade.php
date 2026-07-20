@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row align-items-center g-5">
             <div class="col-md-6">
-                <h1 class="display-5 fw-bold mb-3">Know Your Rights.<br>Empower Yourself.</h1>
+                <h1 class="display-5 fw-bold mb-3">Know Your <span>Rights</span>. Empower Yourself.</h1>
                 <p class="lead mb-4">Ain Sheba connects citizens with certified legal experts for accessible, structured legal literacy training.</p>
                 <div class="d-flex flex-wrap gap-3">
                     <a href="{{ route('programs.index') }}" class="btn ain-btn-accent btn-lg px-4">Browse Programs</a>
@@ -91,7 +91,7 @@
                 <div class="ain-program-card card h-100 border-0 shadow-sm">
                     {{-- Thumbnail --}}
                     @if ($program->thumbnail)
-                        <img src="{{ asset('uploads/' . $program->thumbnail) }}" class="card-img-top ain-program-thumb" alt="{{ $program->title }}">
+                        <img src="{{ asset($program->thumbnail) }}" class="card-img-top ain-program-thumb" alt="{{ $program->title }}">
                     @else
                         <div class="ain-program-thumb ain-program-thumb-placeholder d-flex align-items-center justify-content-center">
                             <span class="display-4 fw-bold text-white">{{ strtoupper(substr($program->title, 0, 1)) }}</span>

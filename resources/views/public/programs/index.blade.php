@@ -5,35 +5,17 @@
 @section('content')
 
 {{-- HERO --}}
-<section class="ain-section py-4" style="background: var(--ain-primary); color: white;">
+<section class="ain-hero py-5">
     <div class="container">
-        <h1 class="fw-bold mb-1">Browse Legal Programs</h1>
-        <p class="mb-0 opacity-75">Structured legal literacy programs created by certified lawyers — all free to join.</p>
+        <h1 class="fw-bold mb-1" style="font-size:2.25rem"><i class="bi bi-journal-text me-2"></i>Browse Legal Programs</h1>
+        <p class="mb-0">Structured legal literacy programs created by certified lawyers — all free to join.</p>
     </div>
 </section>
-
-{{-- FLASH MESSAGES --}}
-@if (session('success'))
-    <div class="container mt-3">
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    </div>
-@endif
-@if (session('error'))
-    <div class="container mt-3">
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    </div>
-@endif
 
 <div class="container py-4">
 
     {{-- FILTER BAR --}}
-    <div class="card border-0 shadow-sm mb-4 bg-white">
+    <div class="card mb-4 bg-white sticky-top" style="top:0.75rem;z-index:10">
         <div class="card-body">
             <form method="GET" action="{{ route('programs.index') }}" class="row g-2 align-items-end">
                 {{-- Search --}}
@@ -104,21 +86,21 @@
     <div class="row g-4">
         @forelse ($programs as $program)
         <div class="col-12 col-md-6 col-lg-4">
-            <div class="ain-program-card card h-100 border-0 shadow-sm">
+            <div class="ain-program-card">
                 {{-- Thumbnail --}}
                 @if ($program->thumbnail)
-                    <img src="{{ asset('uploads/' . $program->thumbnail) }}"
-                         class="card-img-top ain-program-thumb" alt="{{ $program->title }}">
+                    <img src="{{ asset($program->thumbnail) }}"
+                         class="ain-program-thumb" alt="{{ $program->title }}">
                 @else
                     <div class="ain-program-thumb ain-program-thumb-placeholder d-flex align-items-center justify-content-center">
                         <span class="display-4 fw-bold text-white">{{ strtoupper(substr($program->title, 0, 1)) }}</span>
                     </div>
                 @endif
 
-                <div class="card-body d-flex flex-column">
-                    <h6 class="card-title fw-semibold mb-1">{{ $program->title }}</h6>
+                <div class="ain-program-body">
+                    <h6 class="ain-program-title mb-1">{{ $program->title }}</h6>
 
-                    <small class="text-muted mb-2">
+                    <small class="text-muted mb-2 d-block">
                         <a href="{{ route('lawyers.show', $program->lawyer->id) }}" class="text-muted text-decoration-none">
                             <i class="bi bi-person-circle me-1"></i>{{ $program->lawyer->name ?? '—' }}
                         </a>
@@ -129,16 +111,17 @@
                             <span class="badge ain-badge-area">{{ $program->legalArea->name }}</span>
                         @endif
                         <span class="badge ain-badge-level text-capitalize">{{ $program->level }}</span>
+                        <span class="badge ain-badge-published"><i class="bi bi-tag me-1"></i>Free</span>
                     </div>
 
-                    <p class="text-muted small mb-3 flex-grow-1">{{ Str::limit($program->description, 90) }}</p>
+                    <p class="ain-program-meta">{{ Str::limit($program->description, 90) }}</p>
+                </div>
 
-                    <div class="d-flex justify-content-between align-items-center mt-auto">
-                        <small class="text-muted">
-                            <i class="bi bi-people me-1"></i>{{ $program->registrations_count ?? 0 }} citizens
-                        </small>
-                        <a href="{{ route('programs.show', $program->slug) }}" class="btn ain-btn-accent btn-sm">View Program</a>
-                    </div>
+                <div class="ain-program-footer">
+                    <small class="text-muted">
+                        <i class="bi bi-people me-1"></i>{{ $program->registrations_count ?? 0 }} citizens
+                    </small>
+                    <a href="{{ route('programs.show', $program->slug) }}" class="btn ain-btn-accent btn-sm">View Program</a>
                 </div>
             </div>
         </div>

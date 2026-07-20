@@ -4,22 +4,18 @@
 
 @section('lawyer-content')
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h4 class="fw-bold mb-0">My Programs</h4>
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+        <h4 class="mb-1 fw-bold"><i class="bi bi-journal-text me-2 text-primary"></i>My Programs</h4>
+        <p class="text-muted mb-0 small">Manage the legal literacy programs you've created.</p>
+    </div>
     <a href="{{ route('lawyer.programs.create') }}" class="btn ain-btn-accent">
-        <i class="bi bi-plus-lg me-1"></i>New Program
+        <i class="bi bi-plus-lg"></i>New Program
     </a>
 </div>
 
-@if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-@endif
-
 {{-- Filter Tabs --}}
-<ul class="nav nav-tabs mb-4">
+<ul class="nav nav-pills mb-4 gap-2">
     <li class="nav-item">
         <a class="nav-link {{ !request('status') ? 'active' : '' }}"
            href="{{ route('lawyer.programs.index') }}">All</a>
@@ -39,9 +35,13 @@
 </ul>
 
 @if ($programs->isEmpty())
-    <div class="text-center py-5 text-muted">
-        <i class="bi bi-journal-x" style="font-size:3rem"></i>
-        <p class="mt-3">No programs found. <a href="{{ route('lawyer.programs.create') }}">Create one now.</a></p>
+    <div class="text-center py-5">
+        <i class="bi bi-journal-x display-1 text-muted opacity-25 mb-3 d-block"></i>
+        <h5 class="text-muted fw-semibold">No programs found</h5>
+        <p class="text-muted small mb-3">Programs you create will appear here.</p>
+        <a href="{{ route('lawyer.programs.create') }}" class="btn btn-primary btn-sm">
+            <i class="bi bi-plus-lg"></i>Create One Now
+        </a>
     </div>
 @else
     <div class="ain-table-wrap">
@@ -72,22 +72,24 @@
                     </td>
                     <td class="fw-semibold align-middle">{{ $program->title }}</td>
                     <td class="align-middle text-muted small">{{ $program->legalArea->name ?? '—' }}</td>
-                    <td class="text-center align-middle">{{ $program->registrations_count }}</td>
+                    <td class="text-center align-middle">
+                        <span class="badge ain-badge-confirmed"><i class="bi bi-people me-1"></i>{{ $program->registrations_count }}</span>
+                    </td>
                     <td class="align-middle">
-                        <span class="ain-badge-{{ $program->status }}">{{ ucfirst($program->status) }}</span>
+                        <span class="badge ain-badge-{{ $program->status }}">{{ ucfirst($program->status) }}</span>
                     </td>
                     <td class="text-end align-middle">
                         <a href="{{ route('lawyer.programs.show', $program->id) }}"
-                           class="btn btn-sm btn-outline-primary me-1">View</a>
+                           class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i>View</a>
                         <a href="{{ route('lawyer.programs.edit', $program->id) }}"
-                           class="btn btn-sm btn-outline-secondary me-1">Edit</a>
+                           class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i>Edit</a>
 
                         <form method="POST" action="{{ route('lawyer.programs.destroy', $program->id) }}"
                               class="d-inline"
                               onsubmit="return confirm('Delete \'{{ addslashes($program->title) }}\'? This cannot be undone.')">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash3"></i>Delete</button>
                         </form>
                     </td>
                 </tr>

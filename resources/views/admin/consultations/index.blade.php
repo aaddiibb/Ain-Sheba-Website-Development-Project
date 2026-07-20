@@ -4,12 +4,13 @@
 
 @section('admin-content')
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h4 class="fw-bold mb-0">Consultations</h4>
+<div class="mb-4">
+    <h4 class="mb-1 fw-bold"><i class="bi bi-calendar2-week me-2 text-primary"></i>Consultations</h4>
+    <p class="text-muted mb-0 small">Browse all consultation bookings across the platform.</p>
 </div>
 
 {{-- Status Filter Tabs --}}
-<ul class="nav nav-tabs mb-4">
+<ul class="nav nav-pills mb-4 gap-2">
     @foreach (['' => 'All', 'pending' => 'Pending', 'confirmed' => 'Confirmed', 'completed' => 'Completed', 'cancelled' => 'Cancelled'] as $val => $label)
     <li class="nav-item">
         <a class="nav-link {{ request('status') === $val ? 'active' : '' }}"
@@ -20,11 +21,11 @@
     @endforeach
 </ul>
 
-<div class="card border-0 shadow-sm">
+<div class="card">
     <div class="card-body p-0">
         <div class="table-responsive">
             <table class="table table-hover mb-0 align-middle small">
-                <thead class="table-light">
+                <thead>
                     <tr>
                         <th>Citizen</th>
                         <th>Lawyer</th>

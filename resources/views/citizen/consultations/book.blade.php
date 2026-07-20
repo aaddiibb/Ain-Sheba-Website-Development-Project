@@ -9,14 +9,6 @@
     <p class="text-muted small">Select a date and time to request a session with {{ $lawyer->name }}.</p>
 </div>
 
-{{-- FLASH MESSAGES --}}
-@if (session('error'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{ session('error') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-@endif
-
 @if ($errors->any())
     <div class="alert alert-danger">
         <ul class="mb-0">
@@ -36,7 +28,7 @@
 
                 {{-- Avatar --}}
                 @if ($lawyer->profile_picture)
-                    <img src="{{ asset('uploads/' . $lawyer->profile_picture) }}"
+                    <img src="{{ asset($lawyer->profile_picture) }}"
                          class="rounded-circle mb-3"
                          style="width:90px;height:90px;object-fit:cover;"
                          alt="{{ $lawyer->name }}">

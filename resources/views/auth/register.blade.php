@@ -8,13 +8,13 @@
         <div class="col-12" style="max-width: 450px;">
             <div class="card shadow-sm">
                 <div class="card-body p-4">
-                    <h2 class="card-title mb-4 text-center fw-bold">Create Account</h2>
+                    <h2 class="card-title mb-4 text-center fw-bold"><i class="bi bi-person-plus me-2 text-primary"></i>Create Account</h2>
 
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
                         <div class="mb-3">
-                            <label for="name" class="form-label">Full Name</label>
+                            <label for="name" class="form-label"><i class="bi bi-person me-1 text-primary"></i>Full Name</label>
                             <input
                                 type="text"
                                 id="name"
@@ -30,7 +30,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email Address</label>
+                            <label for="email" class="form-label"><i class="bi bi-envelope me-1 text-primary"></i>Email Address</label>
                             <input
                                 type="email"
                                 id="email"
@@ -45,7 +45,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
+                            <label for="password" class="form-label"><i class="bi bi-key me-1 text-primary"></i>Password</label>
                             <input
                                 type="password"
                                 id="password"
@@ -59,7 +59,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="password_confirmation" class="form-label">Confirm Password</label>
+                            <label for="password_confirmation" class="form-label"><i class="bi bi-key-fill me-1 text-primary"></i>Confirm Password</label>
                             <input
                                 type="password"
                                 id="password_confirmation"
@@ -109,7 +109,7 @@
                         </div>
 
                         <div class="d-grid mb-3">
-                            <button type="submit" class="btn ain-btn-accent">Register</button>
+                            <button type="submit" class="btn ain-btn-accent"><i class="bi bi-person-plus"></i>Register</button>
                         </div>
 
                         <p class="text-center mb-0">

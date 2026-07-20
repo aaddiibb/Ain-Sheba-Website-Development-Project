@@ -18,7 +18,6 @@
             @include('lawyer._sidebar', ['user' => auth()->user()])
         </div>
         <div class="col-md-9 p-4">
-            @include('components.flash')
             @yield('lawyer-content')
         </div>
     </div>

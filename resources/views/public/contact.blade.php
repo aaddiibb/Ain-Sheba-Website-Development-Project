@@ -70,7 +70,7 @@
                                 <textarea id="contact_message" name="message" class="form-control" rows="5" placeholder="Write your message here..." required></textarea>
                             </div>
                             <div class="col-12">
-                                <button type="submit" class="btn ain-btn-accent px-5">Send Message</button>
+                                <button type="submit" class="btn ain-btn-accent px-5"><i class="bi bi-send"></i>Send Message</button>
                             </div>
                         </div>
                     </form>

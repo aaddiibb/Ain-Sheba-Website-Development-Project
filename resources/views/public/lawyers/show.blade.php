@@ -14,7 +14,7 @@
                 <div class="d-flex align-items-start gap-4">
                     {{-- Avatar --}}
                     @if ($lawyer->profile_picture)
-                        <img src="{{ asset('uploads/' . $lawyer->profile_picture) }}"
+                        <img src="{{ asset($lawyer->profile_picture) }}"
                              class="ain-lawyer-avatar-lg flex-shrink-0"
                              alt="{{ $lawyer->name }}">
                     @else
@@ -105,27 +105,27 @@
                 <div class="row g-4 mb-5">
                     @foreach ($programs as $program)
                     <div class="col-md-6">
-                        <div class="ain-program-card card h-100 border-0 shadow-sm">
+                        <div class="ain-program-card">
                             @if ($program->thumbnail)
-                                <img src="{{ asset('uploads/' . $program->thumbnail) }}"
-                                     class="card-img-top ain-program-thumb" alt="{{ $program->title }}">
+                                <img src="{{ asset($program->thumbnail) }}"
+                                     class="ain-program-thumb" alt="{{ $program->title }}">
                             @else
                                 <div class="ain-program-thumb ain-program-thumb-placeholder d-flex align-items-center justify-content-center">
                                     <span class="display-4 fw-bold text-white">{{ strtoupper(substr($program->title, 0, 1)) }}</span>
                                 </div>
                             @endif
-                            <div class="card-body d-flex flex-column">
-                                <h6 class="card-title fw-semibold mb-1">{{ $program->title }}</h6>
+                            <div class="ain-program-body">
+                                <h6 class="ain-program-title mb-1">{{ $program->title }}</h6>
                                 <div class="mb-2 d-flex flex-wrap gap-1">
                                     @if ($program->legalArea)
                                         <span class="badge ain-badge-area">{{ $program->legalArea->name }}</span>
                                     @endif
                                     <span class="badge ain-badge-level text-capitalize">{{ $program->level }}</span>
                                 </div>
-                                <div class="d-flex justify-content-between align-items-center mt-auto">
-                                    <small class="text-muted"><i class="bi bi-people me-1"></i>{{ $program->registrations_count }} citizens</small>
-                                    <a href="{{ route('programs.show', $program->slug) }}" class="btn ain-btn-accent btn-sm">View Program</a>
-                                </div>
+                            </div>
+                            <div class="ain-program-footer">
+                                <small class="text-muted"><i class="bi bi-people me-1"></i>{{ $program->registrations_count }} citizens</small>
+                                <a href="{{ route('programs.show', $program->slug) }}" class="btn ain-btn-accent btn-sm">View Program</a>
                             </div>
                         </div>
                     </div>
@@ -139,13 +139,24 @@
             @endif
 
             {{-- Availability Schedule --}}
-            <h4 class="fw-bold mb-3">Availability Schedule</h4>
+            <h4 class="fw-bold mb-3"><i class="bi bi-calendar-week me-2 text-primary"></i>Availability Schedule</h4>
             @php
                 $orderedDays = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
                 $availByDay  = $availability->groupBy('day_of_week');
             @endphp
 
             @if ($availability->count() > 0)
+                {{-- Weekly overview grid --}}
+                <div class="ain-week-grid mb-3">
+                    @foreach ($orderedDays as $day)
+                        <div class="ain-week-day {{ $availByDay->has($day) ? 'ain-week-day-available' : '' }}">
+                            <span class="ain-week-day-name">{{ substr($day, 0, 3) }}</span>
+                            <i class="bi {{ $availByDay->has($day) ? 'bi-check-circle-fill' : 'bi-dash-circle' }} ain-week-day-icon"></i>
+                        </div>
+                    @endforeach
+                </div>
+
+                {{-- Detailed time slots --}}
                 <div class="d-flex flex-wrap gap-2">
                     @foreach ($orderedDays as $day)
                         @if ($availByDay->has($day))

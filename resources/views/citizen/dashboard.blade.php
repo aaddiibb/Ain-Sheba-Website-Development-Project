@@ -45,10 +45,10 @@
 {{-- My Certificates --}}
 @if ($certificates->isNotEmpty())
 <div class="mb-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="fw-semibold mb-0"><i class="bi bi-award me-2" style="color:var(--ain-accent)"></i>My Certificates</h5>
+    <div class="ain-section-header">
+        <h5><i class="bi bi-award"></i>My Certificates</h5>
     </div>
-    <div class="card border-0 shadow-sm">
+    <div class="card border-0">
         <ul class="list-group list-group-flush">
             @foreach ($certificates as $cert)
             <li class="list-group-item d-flex justify-content-between align-items-center py-3">
@@ -72,11 +72,13 @@
 {{-- Continue Learning --}}
 @if ($continuePrograms->isNotEmpty())
 <div class="mb-4">
-    <h5 class="fw-semibold mb-3">Continue Learning</h5>
+    <div class="ain-section-header">
+        <h5><i class="bi bi-play-circle"></i>Continue Learning</h5>
+    </div>
     <div class="row g-3">
         @foreach ($continuePrograms as $reg)
         <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm ain-program-card">
+            <div class="card h-100 ain-program-card">
                 @if ($reg->program->thumbnail)
                     <img src="/{{ $reg->program->thumbnail }}" class="card-img-top ain-program-thumb" alt="{{ $reg->program->title }}">
                 @else
@@ -107,27 +109,30 @@
 {{-- Upcoming Consultations --}}
 @if ($upcomingConsultations->isNotEmpty())
 <div class="mb-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="fw-semibold mb-0">Upcoming Consultations</h5>
-        <a href="{{ route('citizen.consultations.index') }}" class="small text-decoration-none" style="color:var(--ain-primary)">
+    <div class="ain-section-header">
+        <h5><i class="bi bi-calendar-check"></i>Upcoming Consultations</h5>
+        <a href="{{ route('citizen.consultations.index') }}" class="btn btn-outline-primary btn-sm">
             View All <i class="bi bi-arrow-right"></i>
         </a>
     </div>
-    <div class="card border-0 shadow-sm">
+    <div class="card border-0">
         <ul class="list-group list-group-flush">
             @foreach ($upcomingConsultations as $c)
             <li class="list-group-item d-flex justify-content-between align-items-center py-3">
-                <div>
-                    <div class="fw-semibold">{{ $c->lawyer->name ?? '—' }}</div>
-                    <small class="text-muted">
-                        <i class="bi bi-calendar3 me-1"></i>{{ \Carbon\Carbon::parse($c->booked_date)->format('d M Y') }}
-                        &nbsp;|&nbsp;{{ $c->time_slot }}
-                    </small>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="rounded-circle d-inline-block flex-shrink-0" style="width:10px;height:10px;background:{{ $c->status === 'confirmed' ? 'var(--ain-success)' : 'var(--ain-warning)' }}"></span>
+                    <div>
+                        <div class="fw-semibold">{{ $c->lawyer->name ?? '—' }}</div>
+                        <small class="text-muted">
+                            <i class="bi bi-calendar3 me-1"></i>{{ \Carbon\Carbon::parse($c->booked_date)->format('d M Y') }}
+                            &nbsp;|&nbsp;{{ $c->time_slot }}
+                        </small>
+                    </div>
                 </div>
                 @if ($c->status === 'confirmed')
-                    <span class="badge bg-success">Confirmed</span>
+                    <span class="badge ain-badge-confirmed"><i class="bi bi-check-circle me-1"></i>Confirmed</span>
                 @else
-                    <span class="badge bg-warning text-dark">Pending</span>
+                    <span class="badge ain-badge-pending"><i class="bi bi-hourglass-split me-1"></i>Pending</span>
                 @endif
             </li>
             @endforeach
@@ -139,11 +144,13 @@
 {{-- Recommended Programs --}}
 @if ($recommended->isNotEmpty())
 <div class="mb-2">
-    <h5 class="fw-semibold mb-3">Recommended Programs</h5>
+    <div class="ain-section-header">
+        <h5><i class="bi bi-stars"></i>Recommended Programs</h5>
+    </div>
     <div class="row g-3">
         @foreach ($recommended as $program)
         <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm ain-program-card">
+            <div class="card h-100 ain-program-card">
                 @if ($program->thumbnail)
                     <img src="/{{ $program->thumbnail }}" class="card-img-top ain-program-thumb" alt="{{ $program->title }}">
                 @else

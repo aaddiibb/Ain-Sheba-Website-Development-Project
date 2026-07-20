@@ -6,13 +6,6 @@
 
 <h4 class="fw-bold mb-4">Change Password</h4>
 
-@if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-@endif
-
 <div class="card border-0 shadow-sm p-4" style="max-width:480px">
     <form method="POST" action="{{ route('citizen.password.update') }}">
         @csrf

@@ -31,7 +31,7 @@
                         preg_match('/[?&]v=([^&]+)/', $resourceUrl, $matches);
                         $videoId = $matches[1] ?? null;
                     } elseif (str_contains($resourceUrl, 'youtu.be')) {
-                        preg_match('~/([^?&/]+)~', $resourceUrl, $matches);
+                        preg_match('~youtu\.be/([^?&]+)~', $resourceUrl, $matches);
                         $videoId = $matches[1] ?? null;
                     }
                 @endphp

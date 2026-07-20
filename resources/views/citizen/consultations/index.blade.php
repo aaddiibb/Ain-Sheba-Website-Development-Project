@@ -4,29 +4,20 @@
 
 @section('citizen-content')
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h4 class="fw-bold mb-0">My Consultations</h4>
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+        <h4 class="mb-1 fw-bold"><i class="bi bi-calendar-check me-2 text-primary"></i>My Consultations</h4>
+        <p class="text-muted mb-0 small">Your booked and past consultations with lawyers.</p>
+    </div>
     <a href="{{ route('lawyers.index') }}" class="btn ain-btn-accent btn-sm">
-        <i class="bi bi-calendar-plus me-1"></i>Book New Consultation
+        <i class="bi bi-calendar-plus"></i>Book New Consultation
     </a>
 </div>
 
-{{-- FLASH MESSAGES --}}
-@if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-@endif
-@if (session('error'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{ session('error') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-@endif
-
 {{-- UPCOMING BOOKINGS --}}
-<h5 class="fw-semibold mb-3"><i class="bi bi-calendar-check me-2 text-primary"></i>Upcoming Bookings</h5>
+<div class="ain-section-header">
+    <h5><i class="bi bi-calendar-check"></i>Upcoming Bookings</h5>
+</div>
 
 @if ($upcoming->count() > 0)
     <div class="row g-3 mb-5">
@@ -96,12 +87,14 @@
 @endif
 
 {{-- PAST CONSULTATIONS --}}
-<h5 class="fw-semibold mb-3"><i class="bi bi-clock-history me-2 text-muted"></i>Past Consultations</h5>
+<div class="ain-section-header">
+    <h5><i class="bi bi-clock-history"></i>Past Consultations</h5>
+</div>
 
 @if ($past->count() > 0)
     <div class="table-responsive">
         <table class="table table-hover align-middle">
-            <thead class="table-light">
+            <thead>
                 <tr>
                     <th>Lawyer</th>
                     <th>Date</th>

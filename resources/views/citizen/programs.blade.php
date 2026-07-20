@@ -4,12 +4,13 @@
 
 @section('citizen-content')
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h4 class="fw-bold mb-0">My Programs</h4>
+<div class="mb-4">
+    <h4 class="mb-1 fw-bold"><i class="bi bi-journal-check me-2 text-primary"></i>My Programs</h4>
+    <p class="text-muted mb-0 small">Track your enrolled legal literacy programs.</p>
 </div>
 
 {{-- Filter Tabs --}}
-<ul class="nav nav-tabs mb-4">
+<ul class="nav nav-pills mb-4 gap-2">
     <li class="nav-item">
         <a class="nav-link {{ !request('status') ? 'active' : '' }}"
            href="{{ route('citizen.programs') }}">All</a>
@@ -25,10 +26,11 @@
 </ul>
 
 @if ($registrations->isEmpty())
-    <div class="text-center py-5 text-muted">
-        <i class="bi bi-journal-x" style="font-size:3rem"></i>
-        <p class="mt-3">No programs found for this filter.</p>
-        <a href="{{ route('citizen.programs') }}" class="btn btn-sm btn-outline-secondary">View All</a>
+    <div class="text-center py-5">
+        <i class="bi bi-journal-x display-1 text-muted opacity-25 mb-3 d-block"></i>
+        <h5 class="text-muted fw-semibold">No programs found</h5>
+        <p class="text-muted small mb-3">No programs match this filter.</p>
+        <a href="{{ route('citizen.programs') }}" class="btn btn-outline-primary btn-sm">View All</a>
     </div>
 @else
     <div class="row g-3">

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ChatbotController extends Controller
 {
@@ -37,7 +38,7 @@ Rules you must follow:
 7. Never recommend external legal services, other websites, or third-party platforms.";
 
         $apiKey = env('GEMINI_API_KEY');
-        $model = env('GEMINI_MODEL', 'gemini-2.5-flash');
+        $model = env('GEMINI_MODEL', 'gemini-flash-latest');
 
         if (empty($apiKey)) {
             return response()->json(['reply' => 'The chatbot is not configured yet. Please contact the administrator.'], 503);
@@ -59,6 +60,7 @@ Rules you must follow:
                         'maxOutputTokens' => 600,
                         'temperature' => 0.4,
                         'topP' => 0.9,
+                        'thinkingConfig' => ['thinkingBudget' => 0],
                     ],
                     'safetySettings' => [
                         ['category' => 'HARM_CATEGORY_HARASSMENT', 'threshold' => 'BLOCK_MEDIUM_AND_ABOVE'],
@@ -76,14 +78,18 @@ Rules you must follow:
 
             return response()->json(['reply' => $reply]);
         } catch (\GuzzleHttp\Exception\ConnectException $e) {
+            Log::warning('Gemini chatbot connect failed: ' . $e->getMessage());
             return response()->json(['reply' => 'Could not connect to the AI service. Please check your internet connection and try again.'], 503);
         } catch (\GuzzleHttp\Exception\ClientException $e) {
+            Log::warning('Gemini chatbot client error: ' . $e->getResponse()->getBody());
+
             if ($e->getResponse()->getStatusCode() === 429) {
                 return response()->json(['reply' => 'The assistant is receiving too many requests right now. Please wait a moment and try again.']);
             }
 
             return response()->json(['reply' => 'The AI service returned an error. Please try again shortly.']);
         } catch (Exception $e) {
+            Log::warning('Gemini chatbot unexpected error: ' . $e->getMessage());
             return response()->json(['reply' => 'Something went wrong. Please try again.'], 500);
         }
     }

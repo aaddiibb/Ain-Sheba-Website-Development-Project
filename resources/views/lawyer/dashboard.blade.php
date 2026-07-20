@@ -9,19 +9,23 @@
     <p class="mb-0" style="opacity:.85">Manage your programs and consultations from here.</p>
 </div>
 
-{{-- Google Calendar Connection Banner --}}
+{{-- Google Calendar Connection Card --}}
 @if(auth()->user()->google_access_token)
-    <div class="alert alert-success d-flex align-items-center justify-content-between mb-4" role="alert">
-        <span><i class="bi bi-google me-2"></i>Google Calendar connected — confirmed consultations are added automatically.</span>
-        <form method="POST" action="{{ route('lawyer.google.disconnect') }}" class="mb-0">
-            @csrf
-            <button type="submit" class="btn btn-sm btn-outline-danger">Disconnect</button>
-        </form>
+    <div class="card ain-google-card ain-google-connected mb-4">
+        <div class="card-body d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <span><i class="bi bi-google ain-google-icon me-2"></i>Google Calendar connected — confirmed consultations are added automatically.</span>
+            <form method="POST" action="{{ route('lawyer.google.disconnect') }}" class="mb-0">
+                @csrf
+                <button type="submit" class="btn btn-outline-danger btn-sm"><i class="bi bi-x-circle"></i>Disconnect</button>
+            </form>
+        </div>
     </div>
 @else
-    <div class="alert alert-warning d-flex align-items-center justify-content-between mb-4" role="alert">
-        <span><i class="bi bi-google me-2"></i>Connect Google Calendar to auto-add confirmed consultations.</span>
-        <a href="{{ route('lawyer.google.connect') }}" class="btn btn-sm btn-primary">Connect Google Calendar</a>
+    <div class="card ain-google-card ain-google-disconnected mb-4">
+        <div class="card-body d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <span><i class="bi bi-google ain-google-icon me-2"></i>Connect Google Calendar to auto-add confirmed consultations.</span>
+            <a href="{{ route('lawyer.google.connect') }}" class="btn btn-primary btn-sm"><i class="bi bi-google"></i>Connect Google Calendar</a>
+        </div>
     </div>
 @endif
 
@@ -76,17 +80,21 @@
 </div>
 
 {{-- Recent Programs --}}
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h5 class="fw-semibold mb-0">Recent Programs</h5>
-    <a href="{{ route('lawyer.programs.index') }}" class="small text-decoration-none" style="color:var(--ain-primary)">
+<div class="ain-section-header">
+    <h5><i class="bi bi-journal-text"></i>Recent Programs</h5>
+    <a href="{{ route('lawyer.programs.index') }}" class="btn btn-outline-primary btn-sm">
         View All <i class="bi bi-arrow-right"></i>
     </a>
 </div>
 
 @if ($programs->isEmpty())
-    <div class="text-center py-4 text-muted">
-        <i class="bi bi-journal-x" style="font-size:2.5rem"></i>
-        <p class="mt-2 mb-0">No programs yet. <a href="{{ route('lawyer.programs.create') }}">Create your first program.</a></p>
+    <div class="text-center py-5">
+        <i class="bi bi-journal-x display-1 text-muted opacity-25 mb-3 d-block"></i>
+        <h5 class="text-muted fw-semibold">No programs yet</h5>
+        <p class="text-muted small mb-3">Programs you create will appear here.</p>
+        <a href="{{ route('lawyer.programs.create') }}" class="btn btn-primary btn-sm">
+            <i class="bi bi-plus-lg"></i>Create Your First Program
+        </a>
     </div>
 @else
     <div class="ain-table-wrap">
@@ -122,9 +130,9 @@
                     <td class="text-center align-middle">{{ $program->registrations_count }}</td>
                     <td class="text-end align-middle">
                         <a href="{{ route('lawyer.programs.show', $program->id) }}"
-                           class="btn btn-sm btn-outline-primary me-1">View</a>
+                           class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i>View</a>
                         <a href="{{ route('lawyer.programs.edit', $program->id) }}"
-                           class="btn btn-sm btn-outline-secondary">Edit</a>
+                           class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i>Edit</a>
                     </td>
                 </tr>
                 @endforeach

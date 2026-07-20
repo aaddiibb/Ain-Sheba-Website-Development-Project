@@ -6,13 +6,6 @@
 
 <h4 class="fw-bold mb-4">My Profile</h4>
 
-@if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-@endif
-
 <div class="card border-0 shadow-sm p-4">
     <form method="POST" action="{{ route('lawyer.profile.update') }}" enctype="multipart/form-data">
         @csrf

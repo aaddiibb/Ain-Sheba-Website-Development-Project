@@ -8,20 +8,6 @@
     <h4 class="fw-bold mb-0">Consultations</h4>
 </div>
 
-{{-- FLASH MESSAGES --}}
-@if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-@endif
-@if (session('error'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{ session('error') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-@endif
-
 {{-- TABS --}}
 <ul class="nav nav-tabs mb-4" id="consultTabs" role="tablist">
     <li class="nav-item" role="presentation">
